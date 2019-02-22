@@ -1,0 +1,30 @@
+-install python 3.0 or latter
+
+In Terminal:
+
+mkdir soen344
+cd soen344
+python3 -m venv venv
+. venv/bin/activate
+pip install flask
+
+put the following code in hello.py in soen344 folder
+from flask import Flask
+app = Flask(__name__)
+
+@app.route(‘/’)
+def hello_world():
+   return ‘Hello, World!’
+
+//the below line is to install a server for running the flask app
+pip install gunicorn
+
+//run the app
+gunicorn -w 4 hello:app
+
+//mysql support
+pip install mysqlclient
+
+//Azure database connection string
+Soen344room3
+"mysql://eglen@eglencecaj:Soen344room3@eglencecaj.mysql.database.azure.com/soen344"
