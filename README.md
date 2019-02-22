@@ -16,5 +16,5 @@ medical checkup. The clinic has a capacity of 5 medical rooms, and there are 7 a
 <br>6.Mike Salib (27195060)
 <br>7.Manpreet Singh (27517378)
 <br>8.Line Ghanem (27280076)
-<br>9.Anthony Iatropoulos
-<br>10.Shayan Shakeri
+<br>9.Anthony Iatropoulos (40028246)
+<br>10.Shayan Shakeri (27180969)
