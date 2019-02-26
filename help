@@ -28,3 +28,10 @@ pip install mysqlclient
 //Azure database connection string
 Soen344room3
 "mysql://eglen@eglencecaj:Soen344room3@eglencecaj.mysql.database.azure.com/soen344"
+
+..........................................Steps.........................................
+DB commands when schema changes:
+
+python migrate.py db init
+python migrate.py db migrate
+python migrate.py db upgrade
