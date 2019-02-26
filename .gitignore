@@ -2,3 +2,4 @@
 .vscode/
 __pycache__/
 venv/
+front-end/node_modules/
