@@ -1,6 +1,14 @@
 from flask import Blueprint
 from flask_restful import Api
 from resources.Hello import Hello
+from resources.registerRoute import UserRegister
+from resources.identifyRoute import Login, Logout
+from resources.patientRoute import PatientMake, PatientUpdate, PatientCheck, PatientCancel
+from resources.nurseRoute import NurseBook, NurseUpdate, NurseCancel, NurseCheckAll
+from resources.doctorRoute import DoctorUpdate
+#
+# from resources.Category import CategoryResource
+# from resources.Comment import CommentResource
 from resources.Patient import PatientResource
 from resources.Doctor import DoctorResource
 from resources.Nurse import NurseResource
