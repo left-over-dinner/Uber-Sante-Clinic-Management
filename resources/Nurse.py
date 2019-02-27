@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from Model import db, Nurse, NurseSchema
-
+#
 nurses_schema = NurseSchema(many=True)
 nurse_schema = NurseSchema()
 
