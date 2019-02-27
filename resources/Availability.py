@@ -38,4 +38,43 @@ class AvailabilityResource(Resource):
         result = availability_schema.dump(availability).data
 
         return {"status": 'success', 'data': result}, 201
+    ...
+
+    def put(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        # Validate and deserialize input
+        data, errors = availability_schema.load(json_data)
+        if errors:
+            return errors, 422
+        availability = Availability.query.filter_by(availability_id=data['availability_id']).first()
+        if not availability:
+            return {'message': 'Category does not exist'}, 400
+        availability.doctor_permit_number = json_data['doctor_permit_number'],
+        availability.date = json_data['date'],
+        availability.slots = json_data['slots'],
+        db.session.commit()
+
+        result = availability_schema.dump(availability).data
+
+        return {"status": 'success', 'data': result}, 204
+
+    ...
+
+    def delete(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        # Validate and deserialize input
+        data, errors = availability_schema.load(json_data)
+        if errors:
+            return errors, 422
+        availability = Availability.query.filter_by(availability_id=data['availability_id']).delete()
+        db.session.commit()
+
+        result = availability_schema.dump(availability).data
+
+        return {"status": 'success', 'data': result}, 204
+
 

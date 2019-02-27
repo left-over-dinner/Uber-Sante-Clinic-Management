@@ -42,22 +42,22 @@ class Doctor(db.Model):
     __tablename__ = 'doctor'
     permit_number = db.Column(db.String(250), primary_key=True)
     last_name = db.Column(db.String(250), nullable=False)
-    firs_name = db.Column(db.String(250), nullable=False)
+    first_name = db.Column(db.String(250), nullable=False)
     speciality = db.Column(db.String(250), nullable=False)
     city = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, permit_number, last_name, firs_name, speciality, city):
+    def __init__(self, permit_number, last_name, first_name, speciality, city):
         self.permit_number = permit_number
         self.last_name = last_name
-        self.firs_name = firs_name
+        self.first_name = first_name
         self.speciality = speciality
         self.city = city
 
 
 class DoctorSchema(ma.Schema):
     permit_number = fields.String()
-    last_name = fields.Date()
-    firs_name = fields.String()
+    last_name = fields.String()
+    first_name = fields.String()
     speciality = fields.String()
     city = fields.String()
 
@@ -85,15 +85,16 @@ class NurseSchema(ma.Schema):
 # ------------------------------- Appointment start ------------------------------------
 class Appointment(db.Model):
     __tablename__ = 'appointment'
+    appointment_id = db.Column(db.INT(), primary_key=True, autoincrement=True)
     patient_card_number = db.Column(db.String(250), db.ForeignKey('patient.card_number',
-                                                                  ondelete='CASCADE'), primary_key=True)
+                                                                  ondelete='CASCADE'), nullable=False)
     doctor_permit_number = db.Column(db.String(250), db.ForeignKey('doctor.permit_number',
                                                                    ondelete='CASCADE'), nullable=False)
     date = db.Column(db.Date(), nullable=False)
     slots = db.Column(db.JSON(), nullable=False)
     appointment_type = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, patient_card_number, doctor_permit_number, date, slots, appointment_type):
+    def __init__(self,  patient_card_number, doctor_permit_number, date, slots, appointment_type):
         self.patient_card_number = patient_card_number
         self.doctor_permit_number = doctor_permit_number
         self.date = date
@@ -102,6 +103,7 @@ class Appointment(db.Model):
 
 
 class AppointmentSchema(ma.Schema):
+    appointment_id = fields.Int()
     patient_card_number = fields.String()
     doctor_permit_number = fields.String()
     date = fields.Date()
@@ -114,7 +116,7 @@ class AppointmentSchema(ma.Schema):
 # ------------------------------- Availability start ------------------------------------
 class Availability(db.Model):
     __tablename__ = 'availability'
-    id = db.Column(db.Integer, primary_key=True)
+    availability_id = db.Column(db.Integer, primary_key=True)
     doctor_permit_number = db.Column(db.String(250), db.ForeignKey('doctor.permit_number',
                                                                    ondelete='CASCADE'), nullable=False)
     date = db.Column(db.Date(), nullable=False)

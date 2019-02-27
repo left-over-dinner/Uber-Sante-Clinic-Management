@@ -43,3 +43,48 @@ class PatientResource(Resource):
 
         return {"status": 'success', 'data': result}, 201
 
+    ...
+
+    def put(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        # Validate and deserialize input
+        data, errors = patient_schema.load(json_data)
+        if errors:
+            return errors, 422
+        patient = Patient.query.filter_by(card_number=data['card_number']).first()
+        if not patient:
+            return {'message': 'Patient does not exist'}, 400
+        patient.card_number = json_data['card_number'],
+        patient.birth_day = json_data['birth_day'],
+        patient.gender = json_data['gender'],
+        patient.phone_number = json_data['phone_number'],
+        patient.address = json_data['address'],
+        patient.email = json_data['email']
+
+        db.session.commit()
+
+        one = patient_schema.dump(patient).data
+
+        print(one)
+
+        return {"status": 'success', 'data': one}, 204
+
+    ...
+
+    def delete(self):
+        json_data = request.get_json(force=True)
+        if not json_data:
+            return {'message': 'No input data provided'}, 400
+        # Validate and deserialize input
+        data, errors = patient_schema.load(json_data)
+        if errors:
+            return errors, 422
+        patient = Patient.query.filter_by(card_number=data['card_number']).delete()
+
+        db.session.commit()
+
+        result = patient_schema.dump(patient).data
+
+        return {"status": 'success', 'data': result}, 204
