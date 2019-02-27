@@ -6,9 +6,14 @@ from resources.identifyRoute import Login, Logout
 from resources.patientRoute import PatientMake, PatientUpdate, PatientCheck, PatientCancel
 from resources.nurseRoute import NurseBook, NurseUpdate, NurseCancel, NurseCheckAll
 from resources.doctorRoute import DoctorUpdate
+
 # from resources.Category import CategoryResource
 # from resources.Comment import CommentResource
-
+from resources.Patient import PatientResource
+from resources.Doctor import DoctorResource
+from resources.Nurse import NurseResource
+from resources.Appointment import AppointmentResource
+from resources.Availability import AvailabilityResource
 
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
@@ -32,4 +37,10 @@ api.add_resource(NurseCheckAll, '/schedule/doctor/checkAll')
 api.add_resource(DoctorUpdate, '/schedule/doctor/update')
 api.add_resource(Hello, '/Hello')
 
+
+api.add_resource(PatientResource, '/Patient')
+api.add_resource(DoctorResource, '/Doctor')
+api.add_resource(NurseResource, '/Nurse')
+api.add_resource(AppointmentResource, '/Appointment')
+api.add_resource(AvailabilityResource, '/Availability')
 #includes login and logout
