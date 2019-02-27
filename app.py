@@ -6,7 +6,7 @@ from resources.identifyRoute import Login, Logout
 from resources.patientRoute import PatientMake, PatientUpdate, PatientCheck, PatientCancel
 from resources.nurseRoute import NurseBook, NurseUpdate, NurseCancel, NurseCheckAll
 from resources.doctorRoute import DoctorUpdate
-
+#
 # from resources.Category import CategoryResource
 # from resources.Comment import CommentResource
 from resources.Patient import PatientResource
