@@ -9,9 +9,9 @@ from resources.doctorRoute import DoctorUpdate
 
 # from resources.Category import CategoryResource
 # from resources.Comment import CommentResource
-from resources.Patient import PatientResource
-from resources.Doctor import DoctorResource
-from resources.Nurse import NurseResource
+from resources.PatientResource import PatientResource
+from resources.DoctorResource import DoctorResource
+from resources.NurseResource import NurseResource
 from resources.Appointment import AppointmentResource
 from resources.Availability import AvailabilityResource
 
