@@ -42,7 +42,7 @@ class AvailabilityResource(Resource):
             return {'message': 'No input data provided'}, 400
         # Validate and deserialize input
 
-        result = dbFacade.registerAvailability(json_data)
+        result = dbFacade.removeAvailability(json_data)
 
         return {"status": 'success', 'data': result}, 204
 

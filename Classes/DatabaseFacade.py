@@ -1,4 +1,4 @@
-from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, AvailabilitySchema
+from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema
 from Classes.AccountAdapter import AccountAdapter
 
 # doctor schema
@@ -13,6 +13,10 @@ patient_schema = PatientSchema()
 #availiblility schema
 availabilityies_schema = AvailabilitySchema(many=True)
 availability_schema = AvailabilitySchema()
+#appointment schema
+appointments_schema = AppointmentSchema(many=True)
+appointment_schema = AppointmentSchema()
+
 
 
 
@@ -53,6 +57,11 @@ class DatabaseFacade():
         availabilities = Availability.query.all()
         availabilities = availabilityies_schema.dump(availabilities).data
         return availabilities
+
+    def getAppointments(self):
+        appointments = Appointment.query.all()
+        appointments = appointments_schema.dump(appointments).data
+        return appointments
 
     def login(self, type, email_, password_):
         if type == "Doctor":
@@ -206,10 +215,10 @@ class DatabaseFacade():
     def updateAvailibility(self, json_data):
         data, errors = availability_schema.load(json_data)
         if errors:
-            return errors, 422
+            return {'error': errors}
         availability = Availability.query.filter_by(availability_id=data['availability_id']).first()
         if not availability:
-            return {'message': 'Category does not exist'}, 400
+            return {'error': 'Category does not exist'}
         availability.doctor_permit_number = json_data['doctor_permit_number'],
         availability.date = json_data['date'],
         availability.slots = json_data['slots'],
@@ -219,14 +228,67 @@ class DatabaseFacade():
 
         return result
 
-    def registerAvailability(self, json_data):
+    def removeAvailability(self, json_data):
         # Validate and deserialize input
         data, errors = availability_schema.load(json_data)
         if errors:
-            return errors, 422
+            return {'error': errors}
         availability = Availability.query.filter_by(availability_id=data['availability_id']).delete()
         db.session.commit()
 
         result = availability_schema.dump(availability).data
+
+        return result
+
+    def registerAppointment(self, json_data):
+        # Validate and deserialize input
+        data, errors = appointment_schema.load(json_data)
+        if errors:
+            return {'error': errors}
+        appointment = Appointment(
+            patient_card_number=json_data['patient_card_number'],
+            doctor_permit_number=json_data['doctor_permit_number'],
+            date=json_data['date'],
+            slots=json_data['slots'],
+            appointment_type=json_data['appointment_type'],
+        )
+
+        db.session.add(appointment)
+        db.session.commit()
+
+        result = appointment_schema.dump(appointment).data
+
+        return result
+
+
+    def updateAappointment(self, json_data):
+        # Validate and deserialize input
+        data, errors = appointment_schema.load(json_data)
+        if errors:
+            return {'error': errors}
+        appointment = Appointment.query.filter_by(patient_card_number=data['patient_card_number']).first()
+        if not appointment:
+            return {'error': 'Category does not exist'}
+        appointment.patient_card_number = json_data['patient_card_number'],
+        appointment.doctor_permit_number = json_data['doctor_permit_number'],
+        appointment.date = json_data['date'],
+        appointment.slots = json_data['slots'],
+        appointment.appointment_type = json_data['appointment_type'],
+        db.session.commit()
+
+        result = appointment_schema.dump(appointment).data
+
+        return result
+
+    def removeAppointemt(self, json_data):
+
+        # Validate and deserialize input
+        data, errors = appointment_schema.load(json_data)
+        if errors:
+            {'error': errors}
+        appointment = Appointment.query.filter_by(appointment_id=data['appointment_id']).delete()
+        db.session.commit()
+
+        result = appointment_schema.dump(appointment).data
 
         return result
