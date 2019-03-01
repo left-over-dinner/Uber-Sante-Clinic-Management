@@ -16,14 +16,20 @@ class Patient(db.Model):
     phone_number = db.Column(db.String(250), nullable=False)
     address = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=False)
+    last_name = db.Column(db.String(250), nullable=False)
+    first_name = db.Column(db.String(250), nullable=False)
+    password = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, card_number, birth_day, gender, phone_number, address, email):
+    def __init__(self, card_number, birth_day, gender, phone_number, address, email, last_name, first_name, password):
         self.card_number = card_number
         self.birth_day = birth_day
         self.gender = gender
         self.phone_number = phone_number
         self.address = address
         self.email = email
+        self.last_name = last_name
+        self.first_name = first_name
+        self.password = password
 
 
 class PatientSchema(ma.Schema):
@@ -33,6 +39,9 @@ class PatientSchema(ma.Schema):
     phone_number = fields.String()
     address = fields.String()
     email = fields.String()
+    last_name = fields.String()
+    first_name = fields.String()
+    password = fields.String()
 
 
 # ------------------------------- Patient end ------------------------------------
@@ -44,14 +53,18 @@ class Doctor(db.Model):
     last_name = db.Column(db.String(250), nullable=False)
     first_name = db.Column(db.String(250), nullable=False)
     speciality = db.Column(db.String(250), nullable=False)
-    city = db.Column(db.String(250), nullable=False)
+    location = db.Column(db.String(250), nullable=False)
+    email = db.Column(db.String(250), nullable=False)
+    password = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, permit_number, last_name, first_name, speciality, city):
+    def __init__(self, permit_number, last_name, first_name, speciality, location, email, password):
         self.permit_number = permit_number
         self.last_name = last_name
         self.first_name = first_name
         self.speciality = speciality
-        self.city = city
+        self.location = location
+        self.email = email
+        self.password = password
 
 
 class DoctorSchema(ma.Schema):
@@ -59,7 +72,9 @@ class DoctorSchema(ma.Schema):
     last_name = fields.String()
     first_name = fields.String()
     speciality = fields.String()
-    city = fields.String()
+    location = fields.String()
+    email = fields.String()
+    password = fields.String()
 
 
 # ------------------------------- Doctor end ------------------------------------
@@ -69,15 +84,24 @@ class Nurse(db.Model):
     __tablename__ = 'nurse'
     access_id = db.Column(db.String(250), primary_key=True)
     password = db.Column(db.String(250), nullable=False)
+    last_name = db.Column(db.String(250), nullable=False)
+    first_name = db.Column(db.String(250), nullable=False)
+    email = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, access_id, password):
+    def __init__(self, access_id, password, last_name, first_name, email):
         self.access_id = access_id
         self.password = password
+        self.last_name = last_name
+        self.first_name = first_name
+        self.email = email
 
 
 class NurseSchema(ma.Schema):
     access_id = fields.String()
     password = fields.String()
+    last_name = fields.String()
+    first_name = fields.String()
+    email = fields.String()
 
 
 # ------------------------------- Nurse end ------------------------------------
