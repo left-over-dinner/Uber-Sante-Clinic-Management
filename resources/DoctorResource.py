@@ -1,45 +1,28 @@
 from flask import request
 from flask_restful import Resource
 from Model import db, Doctor, DoctorSchema
+from Classes.DatabaseFacade import DatabaseFacade
 
 doctors_schema = DoctorSchema(many=True)
 doctor_schema = DoctorSchema()
 
+dbFacade = DatabaseFacade.getInstance(db)
 
 # this file has to be correctly implemented
 class DoctorResource(Resource):
 
     def get(self):
-        doctors = Doctor.query.all()
-        doctors = doctors_schema.dump(doctors).data
+        doctors = dbFacade.getDoctors()
         return {'status': 'success', 'data': doctors}, 200
-
     ...
 
     def post(self):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        # Validate and deserialize input
-        data, errors = doctor_schema.load(json_data)
-        if errors:
-            return errors, 422
-        doctor = Doctor.query.filter_by(permit_number=data['permit_number']).first()
-        if doctor:
-            return {'message': 'doctor already exists'}, 400
-        doctor = Doctor(
-            permit_number=json_data['permit_number'],
-            last_name=json_data['last_name'],
-            first_name=json_data['first_name'],
-            speciality=json_data['speciality'],
-            city=json_data['city'],
-        )
-
-        db.session.add(doctor)
-        db.session.commit()
-
-        result = doctor_schema.dump(doctor).data
-
+        result = dbFacade.registerDoctor(json_data)
+        if 'error' in result:
+            return {"status": 'failure', 'message': result['error']}, 400
         return {"status": 'success', 'data': result}, 201
 
     ...
@@ -48,23 +31,10 @@ class DoctorResource(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        # Validate and deserialize input
-        data, errors = doctor_schema.load(json_data)
-        if errors:
-            return errors, 422
-        doctor = Doctor.query.filter_by(permit_number=data['permit_number']).first()
-        if not doctor:
-            return {'message': 'Category does not exist'}, 400
-        doctor.permit_number = json_data['permit_number'],
-        doctor.last_name = json_data['last_name'],
-        doctor.first_name = json_data['first_name'],
-        doctor.speciality = json_data['speciality'],
-        doctor.city = json_data['city'],
-        db.session.commit()
-
-        result = doctor_schema.dump(doctor).data
-
-        return {"status": 'success', 'data': result}, 204
+        result = dbFacade.updateDoctor(json_data)
+        if 'error' in result:
+            return {"status": 'failure', 'message': result['error']}, 400
+        return {"status": 'success', 'data': result}, 200
 
     ...
 
@@ -72,14 +42,8 @@ class DoctorResource(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        # Validate and deserialize input
-        data, errors = doctor_schema.load(json_data)
-        if errors:
-            return errors, 422
-        doctor = Doctor.query.filter_by(permit_number=data['permit_number']).delete()
-        db.session.commit()
-
-        result = doctor_schema.dump(doctor).data
-
-        return {"status": 'success', 'data': result}, 204
+        result = dbFacade.removeDoctor(json_data)
+        if 'error' in result:
+            return {"status": 'failure', 'message': result['error']}, 400
+        return {"status": 'success', 'data': result}, 200
 
