@@ -1,4 +1,4 @@
-from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema
+from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, AvailabilitySchema
 from Classes.AccountAdapter import AccountAdapter
 
 # doctor schema
@@ -10,6 +10,10 @@ nurse_schema = NurseSchema()
 # Patient schema
 patients_schema = PatientSchema(many=True)
 patient_schema = PatientSchema()
+#availiblility schema
+availabilityies_schema = AvailabilitySchema(many=True)
+availability_schema = AvailabilitySchema()
+
 
 
 # follow the singleton patter https://www.tutorialspoint.com/python_design_patterns/python_design_patterns_singleton.htm
@@ -44,6 +48,11 @@ class DatabaseFacade():
         patients = Patient.query.all()
         patients = patients_schema.dump(patients).data
         return patients
+
+    def getAvailibilities(self):
+        availabilities = Availability.query.all()
+        availabilities = availabilityies_schema.dump(availabilities).data
+        return availabilities
 
     def login(self, type, email_, password_):
         if type == "Doctor":
@@ -172,4 +181,52 @@ class DatabaseFacade():
         patient = Patient.query.filter_by(card_number=data['card_number']).delete()
         db.session.commit()
         result = patient_schema.dump(patient).data
+        return result
+
+    def registerAvailability(self, json_data):
+        # Validate and deserialize input
+        data, errors = availability_schema.load(json_data)
+        if errors:
+            return {'error': errors}
+        availability = Availability(
+            availability_id=json_data['availability_id'],
+            doctor_permit_number=json_data['doctor_permit_number'],
+            date=json_data['date'],
+            slots=json_data['slots'],
+
+        )
+
+        db.session.add(availability)
+        db.session.commit()
+
+        result = availability_schema.dump(availability).data
+
+        return result
+
+    def updateAvailibility(self, json_data):
+        data, errors = availability_schema.load(json_data)
+        if errors:
+            return errors, 422
+        availability = Availability.query.filter_by(availability_id=data['availability_id']).first()
+        if not availability:
+            return {'message': 'Category does not exist'}, 400
+        availability.doctor_permit_number = json_data['doctor_permit_number'],
+        availability.date = json_data['date'],
+        availability.slots = json_data['slots'],
+        db.session.commit()
+
+        result = availability_schema.dump(availability).data
+
+        return result
+
+    def registerAvailability(self, json_data):
+        # Validate and deserialize input
+        data, errors = availability_schema.load(json_data)
+        if errors:
+            return errors, 422
+        availability = Availability.query.filter_by(availability_id=data['availability_id']).delete()
+        db.session.commit()
+
+        result = availability_schema.dump(availability).data
+
         return result
