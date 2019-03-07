@@ -10,7 +10,7 @@ dbFacade = DatabaseFacade.getInstance(db)
 
 class LoginResource(Resource):
 
-    def get(self):
+    def post(self):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'status':'failure','message': 'No input data provided'}, 400
