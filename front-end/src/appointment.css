@@ -1,0 +1,103 @@
+.listCal {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 360px;
+
+}
+.cal-box {
+    background-color: white;
+    margin: 0;
+}
+
+.cal-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    border-bottom: 1px solid #f5F5f5;
+    max-height: 100px;
+    background-color: #ffffff;
+}
+.cal-list-edit {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    border-bottom: 1px solid #f5F5f5;
+    max-height: 100px;
+}
+.cal-date {
+    width: 10%;
+    margin-right: 3%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.cal-date-day{
+    font-size: 1.5em;
+    line-height: 1em;
+    font-weight: 900;
+    color: #34495e;
+}
+.cal-date-month{
+    color: #34495e;
+}
+
+.cal-desc {
+    flex: 1;
+    max-width: 220px;
+}
+
+
+.cal-title {
+    font-weight: 900;
+    color: #34495e;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    text-transform: capitalize;
+}
+.cal-title-des {
+    text-transform: capitalize;
+    font-size: 1.1em;
+}
+.cal-title-time {
+    color: #1e83EC;
+    font-size: 0.9em;
+}
+
+.note-author  {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #1e83EC;
+    display: flex;
+}
+.note-author:hover  {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #d0021b;
+    display: flex;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.note-author2  {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #1e83EC;
+    display: flex;
+}
+.note-author2:hover  {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #2b9b5a;
+    display: flex;
+    text-decoration: underline;
+    cursor: pointer;
+}
+

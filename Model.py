@@ -140,7 +140,7 @@ class AppointmentSchema(ma.Schema):
 # ------------------------------- Availability start ------------------------------------
 class Availability(db.Model):
     __tablename__ = 'availability'
-    availability_id = db.Column(db.Integer, primary_key=True)
+    availability_id = db.Column(db.Integer, primary_key=True, )
     doctor_permit_number = db.Column(db.String(250), db.ForeignKey('doctor.permit_number',
                                                                    ondelete='CASCADE'), nullable=False)
     date = db.Column(db.Date(), nullable=False)

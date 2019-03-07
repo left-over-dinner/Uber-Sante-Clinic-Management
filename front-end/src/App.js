@@ -1,28 +1,46 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Fragment, Component } from 'react';
 import './App.css';
+import 'semantic-ui-css/semantic.min.css';
+import 'antd/dist/antd.css';
+import {Redirect } from 'react-router'
+import { Route, Switch ,withRouter} from 'react-router-dom';
+import HomePage from './components/homepage.jsx'
+import Registration from './components/registration.jsx'
+import connect from "react-redux/es/connect/connect";
+import axios from 'axios'
+import Navbar from './components/navbar.jsx'
+import Topbar from './components/topbar.jsx'
+import Login from './components/login'
+import Dashboard from './components/dashboard'
+
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+    componentDidMount(){
+        /*this.props.dispatch({type: 'addUserProfile', data: 'hello' });*/
+    }
+    render() {
+        console.log(this.props.userProfile)
+        return (
+            <Fragment>
+            <Topbar />
+            <div className='main-container-app'>
+            <Navbar />
+            <Switch>
+            <Route exact path="/" component={HomePage} />
+        <Route exact path="/register" component={Registration} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Redirect from="*" to="/404" />
+        </Switch>
+        </div>
+        </Fragment>
     );
-  }
+    }
 }
+function mapStateToProps(state){
+    return {
+        userProfile: state.Reducers.userProfile
+    };
 
-export default App;
+}
+export default withRouter(connect(mapStateToProps)(App));

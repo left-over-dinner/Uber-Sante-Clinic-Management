@@ -9,3 +9,4 @@ marshmallow-sqlalchemy==0.13.2
 mysql-connector-python==8.0.13
 psycopg2==2.7.5
 mysqlclient==1.4.2.post1
+flask-cors==3.0.7
