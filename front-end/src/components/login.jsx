@@ -28,8 +28,9 @@ class RegistrationForm extends Component {
         this.setState({password:e.target.value})
         this.setState({errorPassword: false})
     }
-    register=()=> {
+    login=()=> {
         let { email, password} = this.state;
+        console.log("hello")
         if (!email || !password) {
             if (!email) {
                 this.setState({errorEmail: true})
@@ -38,23 +39,34 @@ class RegistrationForm extends Component {
                 this.setState({errorPassword: true})
             }
         } else {
+
             this.setState({loading: true})
-            let data={
+            let data_={
                 email:email,
                 password:password,
+                type:"Doctor"
             }
-            localStorage.setItem('jwtToken', JSON.stringify(data));
-            this.props.dispatch({type: 'addUserProfile', data: data});
-            this.props.dispatch({type: 'activeMenuItem', data: "Dashboard"});
-
-            /*axios.post('/login',{data:data}).then(
+            let data={
+                email:"me@you.com",
+                password:"pass",
+                type:"Doctor"
+            }
+            var obj = {"email":"me@you.com", "password": "pass","type": "Doctor"};
+            /*var obj = JSON.parse('{"email":'+email+', "password":'+password+',"type": "Doctor"}');*/
+            console.log(obj)
+            axios.post('http://127.0.0.1:5000/api/Login',data).then(
                 function (response, err) {
                     console.log(response)
                     if(response.data){
                         this.setState({loading:false})
+                        localStorage.setItem('jwtToken', JSON.stringify(data));
+                        this.props.dispatch({type: 'addUserProfile', data: data});
+                        this.props.dispatch({type: 'activeMenuItem', data: "Dashboard"});
                     }
                 }.bind(this)
-            );*/
+            ).catch(error=>{
+                                  console.log(error)
+                });
         }
     }
     render() {
@@ -96,7 +108,7 @@ class RegistrationForm extends Component {
                         error={this.state.errorPassword}
                         onChange={this.changePassword}
                     />
-                    <Button fluid size='large' style={{marginTop: '10%'}}onClick={this.register}>
+                    <Button fluid size='large' style={{marginTop: '10%'}}onClick={this.login}>
                         Login
                     </Button>
                 </Form>
