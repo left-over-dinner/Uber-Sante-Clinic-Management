@@ -8,6 +8,11 @@ const gender = [
     {key: 'Male', value: 'Male', text: 'Male'},
     {key: 'Female', value: 'Female', text: 'Female'}
 ]
+const types = [
+    {key: 'Doctor', value: 'Doctor', text: 'Doctor'},
+    {key: 'Patient', value: 'Patient', text: 'Patient'},
+    {key: 'Nurse', value: 'Nurse', text: 'Nurse'}
+]
 class RegistrationForm extends Component {
     constructor(props) {
         super(props);
@@ -20,6 +25,7 @@ class RegistrationForm extends Component {
             email: "",
             password: '',
             confirmPassword: '',
+            type:'',
             errorCardNumber:'',
             errorBirthDay:'',
             errorGender: false,
@@ -28,6 +34,7 @@ class RegistrationForm extends Component {
             errorEmail:false,
             errorPassword:false,
             errorConfirmPassword: false,
+            errorType: false,
             loading:false,
         }
     }
@@ -68,9 +75,13 @@ class RegistrationForm extends Component {
         this.setState({confirmPassword:e.target.value})
         this.setState({errorConfirmPassword: false})
     }
+    changeType=(e, {value})=>{
+        this.setState({type: value})
+        this.setState({errorType: false})
+    }
     register=()=>{
-        let {cardNumber,birthDay,address,phone, email, password,confirmPassword,gender} = this.state;
-        if(!cardNumber || !birthDay || !address || !phone || !gender|| !email || !password || !confirmPassword ||  confirmPassword !== password){
+        let {cardNumber,birthDay,address,phone, email, password,confirmPassword,gender,type} = this.state;
+        if(!cardNumber || !birthDay || !address || !phone || !gender|| !email || !password || !confirmPassword ||  confirmPassword !== password || !type){
             if(!cardNumber){
                 this.setState({errorCardNumber: true})
             }
@@ -99,8 +110,37 @@ class RegistrationForm extends Component {
                 this.setState({errorPassword: true})
                 this.setState({errorConfirmPassword: true})
             }
+            if (!type) {
+                this.setState({errorType: true})
+            }
         }else{
             this.setState({loading:true})
+            let data={
+                cardNumber:cardNumber,
+                birthDay:birthDay,
+                gender:gender,
+                phone:phone,
+                address:address,
+                email:email,
+                password:password,
+                type:type
+            }
+
+            //var obj = JSON.parse('{"cardNumber":'+cardNumber+', "birthDay":'+birthDay+', "gender":'+gender+', "phone":'+phone+', "address":'+address+', "email":'+email+',"password":'+password+',"type":'+type+'}');
+            console.log('{"cardNumber":'+cardNumber+', "birthDay":'+birthDay+', "gender":'+gender+', "phone":'+phone+', "address":'+address+', "email":'+email+',"password":'+password+',"type":'+type+'}')
+            axios.post('http://127.0.0.1:5000/api/'+type,data).then(
+                function (response, err) {
+                    console.log(response)
+                    if(response.data){
+                        this.setState({loading:false})
+                        localStorage.setItem('jwtToken', JSON.stringify(data));
+                        this.props.dispatch({type: 'addUserProfile', data: data});
+                        this.props.dispatch({type: 'activeMenuItem', data: "Dashboard"});
+                    }
+                }.bind(this)
+            ).catch(error=>{
+                                  console.log(error)
+                });
 
         }
     }
@@ -174,7 +214,6 @@ class RegistrationForm extends Component {
                         iconPosition='left'
                         label='Phone:'
                         placeholder='Ex: 514 232 9332'
-                        type='number'
                         value={this.state.phone}
                         error={this.state.errorPhone}
                         onChange={this.changePhone}
@@ -217,6 +256,14 @@ class RegistrationForm extends Component {
                     value={this.state.confirmPassword}
                     error={this.state.errorConfirmPassword}
                     onChange={this.changeConfirmPassword}
+                />
+                <Form.Select
+                    fluid
+                    label='Type'
+                    options={types}
+                    value={this.state.type}
+                    error={this.state.errorType}
+                    onChange={this.changeType}
                 />
                 <Button className='david'  fluid size='large' style={{marginTop: '5%'}} onClick={this.register}>
                     Submit
