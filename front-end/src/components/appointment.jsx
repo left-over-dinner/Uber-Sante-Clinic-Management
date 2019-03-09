@@ -3,11 +3,34 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {Icon} from 'semantic-ui-react'
 import '../appointment.css'
+import axios from "axios";
+import {Redirect} from "react-router";
 
 class Appointment extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading:'false',
+        }
+    }
+
+    displayAppointment=(callback)=>{
+        if(this.props.userProfile) {
+            let data = {
+                email: this.props.userProfile.email
+            }
+            axios.post('http://127.0.0.1:5000/api/Appointment',data).then(
+                function (response, err) {
+                    console.log(response)
+                    if(response.data){
+                        this.setState({loading:false})
+                        callback(response.data.data);
+                    }
+                }.bind(this)
+            ).catch(error=>{
+                console.log(error)
+            });
+            console.log('Retrieved data for Appointment.')
         }
     }
 
@@ -15,6 +38,9 @@ class Appointment extends Component {
 
     }
     render() {
+        if (!this.props.userProfile) {
+            return (<Redirect to={'/'}/>);
+        } else {
         return (
             <div className="listCal">
                 <div className="cal-box">
@@ -43,6 +69,7 @@ class Appointment extends Component {
                         </div>
                     </div></div>
             </div>)
+        }
     }
 }
 function mapStateToProps(state){
