@@ -198,11 +198,9 @@ class DatabaseFacade():
         if errors:
             return {'error': errors}
         availability = Availability(
-            availability_id=json_data['availability_id'],
             doctor_permit_number=json_data['doctor_permit_number'],
             date=json_data['date'],
             slots=json_data['slots'],
-
         )
 
         db.session.add(availability)

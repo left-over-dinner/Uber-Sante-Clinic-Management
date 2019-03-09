@@ -146,8 +146,10 @@ class Availability(db.Model):
     date = db.Column(db.Date(), nullable=False)
     slots = db.Column(db.JSON(), nullable=False)
 
-    def __init__(self, availability_id, doctor_permit_number, date, slots):
-        self.availability_id = availability_id
+    def __init__(self, doctor_permit_number, date, slots):
+        # this column is set to auto-increment by the database
+        # it must not be supplied in the constructor
+        #self.availability_id = availability_id
         self.doctor_permit_number = doctor_permit_number
         self.date = date
         self.slots = slots
