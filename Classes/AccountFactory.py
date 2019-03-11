@@ -1,4 +1,4 @@
-from Model  import Doctor, Nurse, Patient
+from Model import Doctor, Nurse, Patient
 
 class AccountFactory:
     def getAccount(accounttype):
