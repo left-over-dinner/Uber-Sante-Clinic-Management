@@ -43,9 +43,8 @@ class DatabaseFacade():
         doctors = doctors_schema.dump(doctors).data
         return doctors
 
-    def getDoctorsByPermitNumber(self,permit_number_):
+    def getDoctorsByPermitNumber(self, permit_number_):
         doctor = Doctor.query.filter_by(permit_number=permit_number_).first()
-        doctor = doctors_schema.dump(doctor).data
         return doctor
 
     def getNurses(self):
