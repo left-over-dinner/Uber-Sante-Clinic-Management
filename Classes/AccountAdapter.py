@@ -41,7 +41,7 @@ class AccountAdapter():
             account.password      = jsonObject["password"      ]
             account.permit_number = jsonObject["permit_number" ]
             account.location      = jsonObject["location"      ]
-            account.speciality     = jsonObject["speciality"     ]
+            account.specialty     = jsonObject["speciality"     ]
             return account
         elif type == "Patient":
             account.last_name    = jsonObject['last_name'    ]

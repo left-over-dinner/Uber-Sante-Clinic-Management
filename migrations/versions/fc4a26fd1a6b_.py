@@ -31,7 +31,7 @@ def upgrade():
     sa.Column('permit_number', sa.String(length=250), nullable=False),
     sa.Column('last_name', sa.String(length=250), nullable=False),
     sa.Column('first_name', sa.String(length=250), nullable=False),
-    sa.Column('speciality', sa.String(length=250), nullable=False),
+    sa.Column('specialty', sa.String(length=250), nullable=False),
     sa.Column('city', sa.String(length=250), nullable=False),
     sa.PrimaryKeyConstraint('permit_number')
     )
