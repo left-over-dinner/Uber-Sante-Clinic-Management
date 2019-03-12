@@ -10,4 +10,7 @@ install:
   
 # command to run tests
 script:
-  - pytest test/
+  - python -m unittest test/*
+  # This task option -s requires a path or you can remove the -s 
+  # and it iterate through the project
+  #- python -m unittest discover -s
