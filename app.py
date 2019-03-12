@@ -47,6 +47,13 @@ json_nur["email"      ] = 'sample3'
 json_nur["password"   ] = 'sample3'
 json_nur['access_id'  ] = 'sample3'
 
+json_appointment = {}
+json_appointment['patient_card_number'] = "sample2"
+json_appointment['doctor_permit_number'] = "436545"
+json_appointment['date'] = '2019-03-11'
+json_appointment['slots'] = '[1, 2, 3, 4, 5]'
+json_appointment['appointment_type'] = "walk-in"
+
 #test = AccountAdapter
 nurse = AccountAdapter.createFromJSON("Patient",json_pat)
 print(nurse.last_name)
