@@ -24,7 +24,7 @@ class AccountAdapterTests(unittest.TestCase):
 
         testdoctor = AccountAdapter.createFromJSON('Doctor', json_doc)
 
-        #assert type last name is 'Nickel'
+        # assert type last name is 'Nickel'
         assert testdoctor.last_name == 'Nickel'
 
         # assert type first name is 'Peck'
@@ -44,6 +44,37 @@ class AccountAdapterTests(unittest.TestCase):
 
         # assert type specialty is 'HELLO'
         assert testdoctor.specialty == 'HELLO'
+
+    def test_create_Patient_from_JSON(self):
+
+        testpatient = AccountAdapter.createFromJSON('Patient', json_pat)
+
+        # assert type last name is 'OKOKOK'
+        assert testpatient.last_name == 'OKOKOK'
+
+        # assert type first name is 'sample2'
+        assert testpatient.first_name == 'sample2'
+
+        # assert type email is 'sample2'
+        assert testpatient.email == 'sample2'
+
+        # assert type password is 'sample2'
+        assert testpatient.password == 'sample2'
+
+        # assert type card number is 'sample2'
+        assert testpatient.card_number == 'sample2'
+
+        # assert type birthday is '1997-09-16'
+        assert testpatient.birth_day == '1997-09-16'
+
+        # assert type gender is 'sample2'
+        assert testpatient.gender == 'sample2'
+
+        # assert type phone number is 'sample2'
+        assert testpatient.phone_number == 'sample2'
+
+        # assert type address is 'sample2'
+        assert testpatient.address == 'sample2'
 
 
 
