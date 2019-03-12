@@ -1,6 +1,4 @@
 import unittest
-from datetime import date
-from flask import json
 from Model import SQLAlchemy, Doctor, Patient, Nurse
 from run import create_app
 from Classes.AccountAdapter import AccountAdapter
@@ -75,6 +73,26 @@ class AccountAdapterTests(unittest.TestCase):
 
         # assert type address is 'sample2'
         assert testpatient.address == 'sample2'
+
+    def test_create_Nurse_from_JSON(self):
+
+        testnurse = AccountAdapter.createFromJSON('Nurse', json_nur)
+
+        # assert type last name is 'YOLO'
+        assert testnurse.last_name == 'YOLO'
+
+        # assert type first name is 'YOU3'
+        assert testnurse.first_name == 'YOU3'
+
+        # assert type email is 'sample3'
+        assert testnurse.email == 'sample3'
+
+        # assert type password is 'sample3'
+        assert testnurse.password == 'sample3'
+
+        # assert type access id is 'sample3'
+        assert testnurse.access_id == 'sample3'
+
 
 
 
