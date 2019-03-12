@@ -52,10 +52,18 @@ class DatabaseFacade():
         nurses = nurses_schema.dump(nurses).data
         return nurses
 
+    def getNursesByAcessId(self, access_id_):
+        nurse = Nurse.query.filter_by(access_id=access_id_).first()
+        return nurse
+
     def getPatients(self):
         patients = Patient.query.all()
         patients = patients_schema.dump(patients).data
         return patients
+
+    def getPatientsByCardNumber(self, card_number_):
+        patient = Patient.query.filter_by(card_number=card_number_).first()
+        return patient
 
     def getAvailibilities(self):
         availabilities = Availability.query.all()
