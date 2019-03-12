@@ -1,9 +1,6 @@
 import unittest
-import ast
 from datetime import date
-
-from flask import json, jsonify
-
+from flask import json
 from Model import SQLAlchemy, Doctor, Patient, Nurse
 from run import create_app
 from Classes.AccountAdapter import AccountAdapter
@@ -12,6 +9,8 @@ from app import json_doc, json_nur, json_pat
 
 class FacadeLoginTests(unittest.TestCase):
 
+    # --- Sets up the testing database that will live in the RAM for the duration of the tests
+    # and sets up the flask testing client --- #
     @classmethod
     def setUpClass(cls):
         app = create_app("test_config")
@@ -38,8 +37,48 @@ class FacadeLoginTests(unittest.TestCase):
         assert response._status == '200 OK'
         assert response._status_code == 200
 
+    def test_Login_Patient(self):
+        response = self.test.post('api/Login', data=json.dumps(dict(email="sample2", password="sample2",type="Patient")))
+        responsebytes = response.data
+        responsejson = json.loads(responsebytes.decode('utf-8'))
+        assert responsejson['data'] == json_pat
+        assert responsejson['status'] == 'success'
+        assert response._status == '200 OK'
+        assert response._status_code == 200
 
+    def test_Login_Nurse(self):
+        response = self.test.post('api/Login', data=json.dumps(dict(email="sample3", password="sample3",type="Nurse")))
+        responsebytes = response.data
+        responsejson = json.loads(responsebytes.decode('utf-8'))
+        assert responsejson['data'] == json_nur
+        assert responsejson['status'] == 'success'
+        assert response._status == '200 OK'
+        assert response._status_code == 200
 
+    def test_Login_Nurse_Bad_Login(self):
+        response = self.test.post('api/Login', data=json.dumps(dict(email="FAKE", password="FAKE",type="Nurse")))
+        responsebytes = response.data
+        responsejson = json.loads(responsebytes.decode('utf-8'))
+        assert responsejson['status'] == 'failure'
+        assert responsejson['message'] == 'Invalid login'
+        assert response._status == '400 BAD REQUEST'
+        assert response._status_code == 400
 
+    def test_No_Type_Error(self):
+        try:
+            response = self.test.post('api/Login', data=json.dumps(dict(email="sample3", password="sample3")))
+        except KeyError:
+            assert KeyError.__class__ == type and KeyError.__doc__ == "Mapping key not found."
 
+    def test_No_Email_Error(self):
+        try:
+            response = self.test.post('api/Login', data=json.dumps(dict(password="sample3", type="Doctor")))
+        except KeyError:
+            assert KeyError.__class__ == type and KeyError.__doc__ == "Mapping key not found."
+
+    def test_No_Password_Error(self):
+        try:
+            response = self.test.post('api/Login', data=json.dumps(dict(email="sample3", type="Doctor")))
+        except KeyError:
+            assert KeyError.__class__ == type and KeyError.__doc__ == "Mapping key not found."
 
