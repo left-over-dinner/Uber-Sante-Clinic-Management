@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from Model import db, Availability, AvailabilitySchema
-from Classes.DatabaseFacade import DatabaseFacade
+from classes.DatabaseFacade import DatabaseFacade
 
 availabilitys_schema = AvailabilitySchema(many=True)
 availability_schema = AvailabilitySchema()

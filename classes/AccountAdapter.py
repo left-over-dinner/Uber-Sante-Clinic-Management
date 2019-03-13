@@ -1,4 +1,4 @@
-from Classes.AccountFactory import AccountFactory
+from classes.AccountFactory import AccountFactory
 
 class AccountAdapter():
     def createFromJSON(type,jsonObject):
