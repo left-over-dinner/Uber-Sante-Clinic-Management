@@ -16,7 +16,7 @@
     justify-content: space-between;
     padding: 20px;
     align-items: center;
-    border-bottom: 1px solid #f5F5f5;
+    border-bottom: 1px solid #000;
     max-height: 100px;
     background-color: #ffffff;
 }
@@ -26,7 +26,7 @@
     justify-content: space-between;
     padding: 20px;
     align-items: center;
-    border-bottom: 1px solid #f5F5f5;
+    border-bottom: 1px solid #000;
     max-height: 100px;
 }
 .cal-date {
@@ -43,10 +43,10 @@
     font-size: 1.5em;
     line-height: 1em;
     font-weight: 900;
-    color: #34495e;
+    color: #000;
 }
 .cal-date-month{
-    color: #34495e;
+    color: #000;
 }
 
 .cal-desc {
@@ -57,7 +57,7 @@
 
 .cal-title {
     font-weight: 900;
-    color: #34495e;
+    color: #000;
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -68,14 +68,14 @@
     font-size: 1.1em;
 }
 .cal-title-time {
-    color: #1e83EC;
+    color: #000;
     font-size: 0.9em;
 }
 
 .note-author  {
     font-size: 0.8em;
     font-weight: 600;
-    color: #1e83EC;
+    color: #000;
     display: flex;
 }
 .note-author:hover  {
@@ -89,13 +89,27 @@
 .note-author2  {
     font-size: 0.8em;
     font-weight: 600;
-    color: #1e83EC;
+    color: #000;
     display: flex;
 }
 .note-author2:hover  {
     font-size: 0.8em;
     font-weight: 600;
     color: #2b9b5a;
+    display: flex;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.note-author3  {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #000;
+    display: flex;
+}
+.note-author3:hover  {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: #1e83EC;
     display: flex;
     text-decoration: underline;
     cursor: pointer;
