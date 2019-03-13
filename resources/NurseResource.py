@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, make_response, jsonify
 from flask_restful import Resource
 from Model import db, Nurse, NurseSchema
 from Classes.DatabaseFacade import DatabaseFacade
@@ -20,22 +20,32 @@ class NurseResource(Resource):
     def post(self):
         json_data = request.get_json(force=True)
         if not json_data:
-            return {'message': 'No input data provided'}, 400
+            resp = make_response(jsonify({'status': 'failure', 'message': 'No input data provided'}))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         result = dbFacade.registerNurse(json_data)
         if 'error' in result:
-            return {"status": 'failure', 'message': result['error']}, 400
-        return {"status": 'success', 'data': result}, 201
+            resp = make_response(jsonify({'status': 'failure', 'message': result}))
+        else:
+            resp = make_response(jsonify({'status': 'success', 'message': 'Registration Complete'}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
     ...
 
     def put(self):
         json_data = request.get_json(force=True)
         if not json_data:
-            return {'message': 'No input data provided'}, 400
+            resp = make_response(jsonify({'status': 'failure', 'message': 'No input data provided'}))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         result = dbFacade.updateNurse(json_data)
         if 'error' in result:
-            return {"status": 'failure', 'message': result['error']}, 400
-        return {"status": 'success', 'data': result}, 200
+            resp = make_response(jsonify({'status': 'failure', 'message': result}))
+        else:
+            resp = make_response(jsonify({'status': 'success', 'message': 'Registration Complete'}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
     ...
 
