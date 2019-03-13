@@ -21,7 +21,7 @@ class FacadeLoginTests(unittest.TestCase):
             Doctor.__table__.create(bind=db.engine)
             Patient.__table__.create(bind=db.engine)
             Nurse.__table__.create(bind=db.engine)
-        with open('../sampleData.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         testdoctor = AccountAdapter.createFromJSON('Doctor',data["json_doc"])
         testpatient = AccountAdapter.createFromJSON('Patient', data["json_pat"])
@@ -34,7 +34,7 @@ class FacadeLoginTests(unittest.TestCase):
         response = self.test.post('api/Login', data=json.dumps(dict(email="me@you", password="you@pass",type="Doctor")))
         responsebytes = response.data
         responsejson = json.loads(responsebytes.decode('utf-8'))
-        with open('../sampleData.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         assert responsejson['data'] == data['json_doc']
         assert responsejson['status'] == 'success'
@@ -45,7 +45,7 @@ class FacadeLoginTests(unittest.TestCase):
         response = self.test.post('api/Login', data=json.dumps(dict(email="sample2", password="sample2",type="Patient")))
         responsebytes = response.data
         responsejson = json.loads(responsebytes.decode('utf-8'))
-        with open('../sampleData.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         assert responsejson['data'] == data['json_pat']
         assert responsejson['status'] == 'success'
@@ -56,7 +56,7 @@ class FacadeLoginTests(unittest.TestCase):
         response = self.test.post('api/Login', data=json.dumps(dict(email="sample3", password="sample3",type="Nurse")))
         responsebytes = response.data
         responsejson = json.loads(responsebytes.decode('utf-8'))
-        with open('../sampleData.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         assert responsejson['data'] == data['json_nur']
         assert responsejson['status'] == 'success'
