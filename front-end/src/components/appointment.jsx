@@ -14,25 +14,6 @@ class Appointment extends Component {
         }
     }
 
-    displayAppointment=(callback)=>{
-        if(this.props.userProfile) {
-            let data = {
-                email: this.props.userProfile.email
-            }
-            axios.post('http://127.0.0.1:5000/api/Appointment',data).then(
-                function (response, err) {
-                    console.log(response)
-                    if(response.data){
-                        this.setState({loading:false})
-                        callback(response.data.data);
-                    }
-                }.bind(this)
-            ).catch(error=>{
-                console.log(error)
-            });
-            console.log('Retrieved data for Appointment.')
-        }
-    }
 
     componentDidMount() {
 
@@ -47,25 +28,24 @@ class Appointment extends Component {
                     <div className="cal-list">
                         <div className="cal-date">
                             <div className="cal-date-day">
-                                31St Monday
+                                {this.props.appointments.date}
                             </div>
                             <div className="cal-date-month">
-                                January
                             </div>
                         </div>
                         <div className="cal-desc">
                             <div className="cal-title">
-                                <span className="cal-title-des"> Xray control</span>
-                                <span lassName="cal-title-time">  From 15:30 to 15:50 </span>
+                                <span className="cal-title-des"> {this.props.appointments.appointment_type}</span>
+                                <span lassName="cal-title-time">  Slots : {this.props.appointments.slots} </span>
                             </div>
                         </div>
                         <div className="PMC-Delete-Edit-buttons">
-                            <div className="note-author">
+                            {/*<div className="note-author">
                                 <Icon name="trash"/> Delete
                             </div>
                             <div className="note-author2">
                                 <Icon name="edit"/> Edit
-                            </div>
+                            </div>*/}
                         </div>
                     </div></div>
             </div>)
