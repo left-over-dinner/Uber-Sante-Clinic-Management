@@ -13,7 +13,9 @@ class DoctorResource(Resource):
 
     def get(self):
         doctors = dbFacade.getDoctors()
-        return {'status': 'success', 'data': doctors}, 200
+        resp = make_response(jsonify({'status': 'success', 'data': doctors}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
     ...
 
     def post(self):

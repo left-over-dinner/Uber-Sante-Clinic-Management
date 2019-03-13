@@ -212,6 +212,7 @@ class DatabaseFacade():
 
     def updateAvailibility(self, json_data):
         data, errors = availability_schema.load(json_data)
+        print(json_data['slots']);
         if errors:
             return {'error': errors}
         availability = Availability.query.filter_by(availability_id=data['availability_id']).first()
@@ -219,7 +220,15 @@ class DatabaseFacade():
             return {'error': 'Category does not exist'}
         availability.doctor_permit_number = json_data['doctor_permit_number'],
         availability.date = json_data['date'],
-        availability.slots = json_data['slots'],
+        availability.slots = None
+        db.session.commit()
+
+        availability = Availability.query.filter_by(availability_id=data['availability_id']).first()
+        if not availability:
+            return {'error': 'Category does not exist'}
+        availability.doctor_permit_number = json_data['doctor_permit_number'],
+        availability.date = json_data['date'],
+        availability.slots = json_data["slots"]
         db.session.commit()
 
         result = availability_schema.dump(availability).data
