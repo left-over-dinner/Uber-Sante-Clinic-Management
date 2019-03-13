@@ -1,0 +1,85 @@
+{
+  "json_doc":
+  {
+    "last_name"     : "Nickel"     ,
+    "first_name"    : "Peck"       ,
+    "email"         : "me@you"     ,
+    "password"      : "you@pass"   ,
+    "permit_number" : "56765"     ,
+    "location"      : "56765"      ,
+    "speciality"     : "HELLO"
+  },
+
+  "json_doc1":
+  {
+    "last_name"     : "Line"     ,
+    "first_name"    : "Ghanem"   ,
+    "email"         : "me@you"   ,
+    "password"      : "pass"   ,
+    "permit_number" : "56765"  ,
+    "location"      : "Montreal"   ,
+    "speciality"     : "chirurgie"
+  },
+
+  "json_pat":
+  {
+    "last_name"     : "OKOKOK"     ,
+    "first_name"    : "sample2"    ,
+    "email"         : "sample2"    ,
+    "password"      : "sample2"    ,
+    "card_number"   : "989898"    ,
+    "birth_day"     : "1997-09-16" ,
+    "gender"        : "sample2"    ,
+    "phone_number"  : "sample2"    ,
+    "address"       : "sample2"
+  },
+
+  "json_pat1":
+  {
+    "last_name"     : "Lara1"     ,
+    "first_name"    : "sample21"    ,
+    "email"         : "sample21"    ,
+    "password"      : "sample21"    ,
+    "card_number"   : "989898"    ,
+    "birth_day"     : "1997-09-16" ,
+    "gender"        : "sample21"    ,
+    "phone_number"  : "sample21"    ,
+    "address"       : "sample21"
+  },
+
+  "json_nur":
+  {
+    "last_name"     : "YOLO"       ,
+    "first_name"    : "YOU3"       ,
+    "email"         : "sample3"    ,
+    "password"      : "sample3"    ,
+    "access_id"     : "3434"
+  },
+
+  "json_nur1":
+  {
+    "last_name"     : "YOLO1"       ,
+    "first_name"    : "YOU31"       ,
+    "email"         : "sample31"    ,
+    "password"      : "sample31"    ,
+    "access_id"     : "3434"
+  },
+
+  "json_ava":
+  {
+    "doctor_permit_number" : "12345",
+    "availability_id": "99999",
+    "date" : "2018-08-12",
+    "slots": "[1,4,5]"
+  },
+
+  "json_app":
+  {
+    "patient_card_number" : "98989",
+    "doctor_permit_number" : "12345",
+    "date": "1900-01-09",
+    "slots": "[1,3]",
+    "appointment_id" : "76765",
+    "appointment_type" : "Checkup"
+  }
+}
