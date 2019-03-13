@@ -22,16 +22,16 @@ class FacadeRemoveTests(unittest.TestCase):
             Patient.__table__.create(bind=db.engine)
             Nurse.__table__.create(bind=db.engine)
             Availability.__table__.create(bind=db.engine)
-            # Appointment.__table__.create(bind=db.engine)
+            Appointment.__table__.create(bind=db.engine)
         testdoctor = AccountAdapter.createFromJSON('Doctor', json_doc)
         testpatient = AccountAdapter.createFromJSON('Patient', json_pat)
         testpatient.birth_day = date(1997, 9, 16)
         testnurse = AccountAdapter.createFromJSON('Nurse', json_nur)
-        # testappointment = Appointment.__init__(json_appointment['patient_card_number'],
-        #                                        json_appointment['doctor_permit_number'],json_appointment['date'],
-        #                                        json_appointment['slots'], json_appointment['appointment_type'])
-        # db.session.add_all([testdoctor, testnurse, testpatient])
-        # db.session.commit()
+        testappointment = Appointment(json_appointment['patient_card_number'],
+                                                json_appointment['doctor_permit_number'],date(2019, 3, 11),
+                                                    json_appointment['slots'], json_appointment['appointment_type'])
+        db.session.add_all([testdoctor, testnurse, testpatient, testappointment])
+        db.session.commit()
 
     # def test_Remove_Patient(self):
     #     response = self.test.delete('api/Patient', data=json_pat)
@@ -47,6 +47,5 @@ class FacadeRemoveTests(unittest.TestCase):
         # assert response._status_code == 200
 
     def test_Remove_Appointment(self):
-        # response = self.test.delete('api/Appointment', data=json_appointment)
-        response = "hello"
+        response = self.test.delete('api/Appointment', data=json_appointment)
         print(response)
