@@ -39,11 +39,11 @@ class AvailabilityResource(Resource):
     def delete(self):
         json_data = request.get_json(force=True)
         if not json_data:
-            return {'message': 'No input data provided'}, 400
+            return {'message': 'No input data provided'}
         # Validate and deserialize input
 
         result = dbFacade.removeAvailability(json_data)
 
-        return {"status": 'success', 'data': result}, 204
+        return {"status": 'success', 'data': result}
 
 
