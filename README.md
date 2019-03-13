@@ -1,4 +1,4 @@
-#UBER SANTE 
+#UBER SANTE [![Build Status](https://travis-ci.com/eglenceco/soen344.svg?token=ZrkYzBc8W8bQ9sGFXZjD&branch=master)](https://travis-ci.com/eglenceco/soen344)
 
 Uber Santé a walk-in clinics hassle free project is a system that will be used by patients and clinic personals
 (doctors and administrator nurses) for a non-urgent care. It allows the patient to book a walk-in medical
