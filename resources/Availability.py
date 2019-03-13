@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, make_response, jsonify
 from flask_restful import Resource
 from Model import db, Availability, AvailabilitySchema
 from Classes.DatabaseFacade import DatabaseFacade
@@ -13,37 +13,51 @@ class AvailabilityResource(Resource):
 
     def get(self):
         availabilities = dbFacade.getAvailibilities()
-        return {'status': 'success', 'data': availabilities}, 200
+        resp = make_response(jsonify({'status': 'success', 'data': availabilities}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
     ...
 
     def post(self):
         json_data = request.get_json(force=True)
         if not json_data:
-            return {'message': 'No input data provided'}, 400
+            resp = make_response(jsonify({'message': 'No input data provided'}))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         result = dbFacade.registerAvailability(json_data)
-        return {"status": 'success', 'data': result}, 201
+        resp = make_response(jsonify({"status": 'success', 'data': result}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
+
     ...
 
     def put(self):
         json_data = request.get_json(force=True)
         if not json_data:
-            return {'message': 'No input data provided'}, 400
+            resp = make_response(jsonify({'message': 'No input data provided'}))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         # Validate and deserialize input
-        result = dbFacade.updateAvailability(json_data)
-
-        return {"status": 'success', 'data': result}, 204
+        result = dbFacade.updateAvailibility(json_data)
+        resp = make_response(jsonify({"status": 'success', 'data': result}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
     ...
 
     def delete(self):
         json_data = request.get_json(force=True)
+        print(json_data)
         if not json_data:
-            return {'message': 'No input data provided'}, 400
+            resp = make_response(jsonify({'message': 'No input data provided'}))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         # Validate and deserialize input
 
         result = dbFacade.removeAvailability(json_data)
-
-        return {"status": 'success', 'data': result}, 204
+        resp = make_response(jsonify({"status": 'success', 'data': result}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
 
