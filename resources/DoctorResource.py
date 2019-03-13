@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from Model import db, Doctor, DoctorSchema
-from Classes.DatabaseFacade import DatabaseFacade
+from classes.DatabaseFacade import DatabaseFacade
 
 doctors_schema = DoctorSchema(many=True)
 doctor_schema = DoctorSchema()
