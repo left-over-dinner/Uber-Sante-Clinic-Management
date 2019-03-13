@@ -108,7 +108,26 @@ class test_DataBaseFacade(unittest.TestCase):
         assert patient.address == "sample21"
         database_facade.removePatient(data['json_pat'])
 
+    def test_updateAvailability(self):
+        with open('testFacade.json') as data_file:
+        data = json.load(data_file)
+        database_facade = DatabaseFacade.getInstance(db)
+        database_facade.registerAvailability(data['json_ava'])
+        database_facade.updateAvailability(data['json_ava1'])
+        ava = database_facade.getAvailabilityByAvailabiityId("99999")
+        assert ava.doctor_permit_number == '12345'
+        assert ava.slots == "[1,4,6]"
+        database_facade.removeAvailability(data['json_ava'])
 
+    def test_registerAppointment(self):
+        with open('testFacade.json') as data_file:
+        data = json.load(data_file)
+        database_facade = DatabaseFacade.getInstance(db)
+        database_facade.registerAppointment(data['json_app'])
+        database_facade.updateAppointment(data['json_app1'])
+        app = database_facade.getAppointmentByPatientCard("98989")
+        assert app.doctor_permit_number == '12345'
+        database_facade.removeAppointemt(data['json_app'])
 
 if __name__ == '__main__':
     unittest.main()
