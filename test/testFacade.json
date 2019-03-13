@@ -73,6 +73,14 @@
     "slots": "[1,4,5]"
   },
 
+  "json_ava1":
+  {
+    "doctor_permit_number" : "12345",
+    "availability_id": "99999",
+    "date" : "2018-08-13",
+    "slots": "[1,4,6]"
+  },
+
   "json_app":
   {
     "patient_card_number" : "98989",
@@ -81,5 +89,15 @@
     "slots": "[1,3]",
     "appointment_id" : "76765",
     "appointment_type" : "Checkup"
+  },
+
+  "json_app1":
+  {
+    "patient_card_number" : "98989",
+    "doctor_permit_number" : "12345",
+    "date": "1900-01-10",
+    "slots": "[1,4]",
+    "appointment_id" : "76765",
+    "appointment_type" : "Checkup1"
   }
 }
