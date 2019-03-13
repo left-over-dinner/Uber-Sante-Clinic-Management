@@ -51,8 +51,14 @@ json_appointment = {}
 json_appointment['patient_card_number'] = "sample2"
 json_appointment['doctor_permit_number'] = "436545"
 json_appointment['date'] = '2019-03-11'
-json_appointment['slots'] = '[1, 2, 3, 4, 5]'
+json_appointment['slots'] = '[1, 2]'
 json_appointment['appointment_type'] = "walk-in"
+
+json_availability = {}
+json_availability['availability_id'] = '1'
+json_availability['doctor_permit_number'] = '436545'
+json_availability['date'] = '2019-03-11'
+json_availability['slots'] = '[1, 2, 3, 4, 5]'
 
 #test = AccountAdapter
 nurse = AccountAdapter.createFromJSON("Patient",json_pat)
