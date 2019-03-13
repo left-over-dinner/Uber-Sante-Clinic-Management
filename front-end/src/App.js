@@ -11,7 +11,8 @@ import axios from 'axios'
 import Navbar from './components/navbar.jsx'
 import Topbar from './components/topbar.jsx'
 import Login from './components/login'
-import Dashboard from './components/dashboard'
+import Appointments from './components/appointments'
+import Availabilities from './components/availabilities'
 
 
 class App extends Component {
@@ -29,7 +30,8 @@ class App extends Component {
             <Route exact path="/" component={HomePage} />
         <Route exact path="/register" component={Registration} />
         <Route exact path="/login" component={Login} />
-        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/appointments" component={Appointments} />
+        <Route exact path="/availabilities" component={Availabilities} />
         <Redirect from="*" to="/404" />
         </Switch>
         </div>
