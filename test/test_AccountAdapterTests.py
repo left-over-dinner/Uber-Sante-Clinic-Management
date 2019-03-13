@@ -20,7 +20,7 @@ class AccountAdapterTests(unittest.TestCase):
 
     def test_create_Doctor_from_JSON(self):
 
-        with open('../sampleData.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         testdoctor = AccountAdapter.createFromJSON('Doctor', data['json_doc'])
 
@@ -47,7 +47,7 @@ class AccountAdapterTests(unittest.TestCase):
 
     def test_create_Patient_from_JSON(self):
 
-        with open('../sampleData.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         testpatient = AccountAdapter.createFromJSON('Patient', data['json_pat'])
 
@@ -80,7 +80,7 @@ class AccountAdapterTests(unittest.TestCase):
 
     def test_create_Nurse_from_JSON(self):
 
-        with open('../sampleData.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         testnurse = AccountAdapter.createFromJSON('Nurse', data['json_nur'])
 
