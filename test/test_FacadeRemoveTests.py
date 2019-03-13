@@ -4,7 +4,7 @@ from datetime import date
 from flask import json
 from Model import SQLAlchemy, Doctor, Patient, Nurse, Appointment, Availability
 from run import create_app
-from Classes.AccountAdapter import AccountAdapter
+from classes.AccountAdapter import AccountAdapter
 from app import json_doc, json_nur, json_pat, json_appointment, json_availability
 
 

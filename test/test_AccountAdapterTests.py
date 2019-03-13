@@ -1,8 +1,8 @@
 import unittest
 from Model import SQLAlchemy, Doctor, Patient, Nurse
 from run import create_app
-from Classes.AccountAdapter import AccountAdapter
-from app import json_doc, json_nur, json_pat
+from classes.AccountAdapter import AccountAdapter
+import json
 
 
 class AccountAdapterTests(unittest.TestCase):
@@ -20,7 +20,9 @@ class AccountAdapterTests(unittest.TestCase):
 
     def test_create_Doctor_from_JSON(self):
 
-        testdoctor = AccountAdapter.createFromJSON('Doctor', json_doc)
+        with open('sampleData.json') as data_file:
+            data = json.load(data_file)
+        testdoctor = AccountAdapter.createFromJSON('Doctor', data['json_doc'])
 
         # assert type last name is 'Nickel'
         assert testdoctor.last_name == 'Nickel'
@@ -45,7 +47,9 @@ class AccountAdapterTests(unittest.TestCase):
 
     def test_create_Patient_from_JSON(self):
 
-        testpatient = AccountAdapter.createFromJSON('Patient', json_pat)
+        with open('sampleData.json') as data_file:
+            data = json.load(data_file)
+        testpatient = AccountAdapter.createFromJSON('Patient', data['json_pat'])
 
         # assert type last name is 'OKOKOK'
         assert testpatient.last_name == 'OKOKOK'
@@ -76,7 +80,9 @@ class AccountAdapterTests(unittest.TestCase):
 
     def test_create_Nurse_from_JSON(self):
 
-        testnurse = AccountAdapter.createFromJSON('Nurse', json_nur)
+        with open('sampleData.json') as data_file:
+            data = json.load(data_file)
+        testnurse = AccountAdapter.createFromJSON('Nurse', data['json_nur'])
 
         # assert type last name is 'YOLO'
         assert testnurse.last_name == 'YOLO'

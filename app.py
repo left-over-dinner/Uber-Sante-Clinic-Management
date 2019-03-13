@@ -1,25 +1,20 @@
 from flask import Blueprint
 from flask_restful import Api
 from resources.Hello import Hello
-from resources.registerRoute import UserRegister
-from resources.identifyRoute import Login, Logout
-from resources.patientRoute import PatientMake, PatientUpdate, PatientCheck, PatientCancel
-from resources.nurseRoute import NurseBook, NurseUpdate, NurseCancel, NurseCheckAll
-from resources.doctorRoute import DoctorUpdate
-from Classes.AccountAdapter import AccountAdapter
-
-# from resources.Category import CategoryResource
-# from resources.Comment import CommentResource
 from resources.PatientResource import PatientResource
 from resources.DoctorResource import DoctorResource
 from resources.NurseResource import NurseResource
 from resources.Appointment import AppointmentResource
 from resources.Availability import AvailabilityResource
 from resources.LoginResource import LoginResource
+from classes.AccountAdapter import AccountAdapter
 
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
 
+
+#SAMPLE DATA, to be put in a respective file for better code
+#can be done for iteration 2
 json_doc = {}
 json_doc['last_name'     ] = "Nickel"
 json_doc['first_name'    ] = "Peck"
@@ -64,24 +59,8 @@ json_availability['slots'] = '[1, 2, 3, 4, 5]'
 nurse = AccountAdapter.createFromJSON("Patient",json_pat)
 print(nurse.last_name)
 
-
 # Routes
 # register, login and logout
-api.add_resource(UserRegister, '/register')
-api.add_resource(Login, '/identify/login')
-api.add_resource(Logout, '/identify/logout')
-#schedule editing for patient
-api.add_resource(PatientMake, '/schedule/patient/make')
-api.add_resource(PatientUpdate, '/schedule/patient/update')
-api.add_resource(PatientCheck, '/schedule/patient/check')
-api.add_resource(PatientCancel, '/schedule/patient/cancel')
-#schedule editing for nurse
-api.add_resource(NurseBook, '/schedule/nurse/book')
-api.add_resource(NurseUpdate, '/schedule/doctor/update')
-api.add_resource(NurseCancel, '/schedule/doctor/cancel')
-api.add_resource(NurseCheckAll, '/schedule/doctor/checkAll')
-#schedule editing for doctor
-api.add_resource(DoctorUpdate, '/schedule/doctor/update')
 api.add_resource(Hello, '/Hello')
 
 
