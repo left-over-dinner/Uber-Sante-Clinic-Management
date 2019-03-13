@@ -21,7 +21,7 @@ class Topbar extends Component {
             <div className='main-container-topBar'>
             <div className='uberText'>UBER SANTÉ</div>
 
-                <div className='topbar-text'>{this.props.userProfile? 'Logged In As: '+this.props.userProfile.email : ''}</div>
+                <div className='topbar-text'>{this.props.userProfile? 'Logged In As ('+this.props.userProfile.type+'): '+this.props.userProfile.email : ''}</div>
             </div>)
     }
 }

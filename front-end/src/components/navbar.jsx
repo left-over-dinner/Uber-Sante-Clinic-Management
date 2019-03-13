@@ -11,19 +11,25 @@ class Navbar extends Component {
     }
 
     componentDidMount() {
+        let props = this.props;
+        setTimeout(function(){
         let path = window.location.href.split('/');
         console.log(path)
         if(path[path.length-1] === 'login'){
-            this.props.dispatch({type: 'activeMenuItem', data: 'Login'});
+            props.dispatch({type: 'activeMenuItem', data: 'Login'});
         }else if(path[path.length-1] === 'register'){
-            this.props.dispatch({type: 'activeMenuItem', data: 'Register'});
+            props.dispatch({type: 'activeMenuItem', data: 'Register'});
 
-        }else if(path[path.length-1] === 'dashboard'){
-            this.props.dispatch({type: 'activeMenuItem', data: 'Dashboard'});
+        }else if(path[path.length-1] === 'appointments'){
+            props.dispatch({type: 'activeMenuItem', data: 'Appointments'});
+
+        }else if(path[path.length-1] === 'availabilities'){
+            props.dispatch({type: 'activeMenuItem', data: 'Availabilities'});
 
         }else if(path[path.length-1] === ''){
-            this.props.dispatch({type: 'activeMenuItem', data: 'Home'});
+            props.dispatch({type: 'activeMenuItem', data: 'Home'});
         }
+         }, 1);
 
     }
     handleItemClick = (e, { name }) => this.props.dispatch({type: 'activeMenuItem', data: name});
@@ -36,7 +42,8 @@ class Navbar extends Component {
         this.props.dispatch({type: 'addUserProfile', data: ''});
 
     }
-    dashboard=()=>{this.props.history.push(`/dashboard`)}
+    appointments=()=>{this.props.history.push(`/appointments`)}
+    availabilities=()=>{this.props.history.push(`/availabilities`)}
 
     render() {
         const { activeMenuItem } = this.props;
@@ -55,12 +62,20 @@ class Navbar extends Component {
                         </Menu.Item>
 
                         <Menu.Item
-                            name='Dashboard'
-                            active={activeMenuItem === 'Dashboard'}
-                            fitted='Dashboard'
-                            onClick={(e,{name})=>{this.handleItemClick(e,{name});this.dashboard();}}
+                            name='Appointments'
+                            active={activeMenuItem === 'Appointments'}
+                            fitted='Appointments'
+                            onClick={(e,{name})=>{this.handleItemClick(e,{name});this.appointments();}}
                         >
-                            DashBoard
+                            Appointments
+                        </Menu.Item>
+                        <Menu.Item
+                            name='Availabilities'
+                            active={activeMenuItem === 'Availabilities'}
+                            fitted='Availabilities'
+                            onClick={(e,{name})=>{this.handleItemClick(e,{name});this.availabilities();}}
+                        >
+                            Availabilities
                         </Menu.Item>
 
                         <Menu.Item

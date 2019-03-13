@@ -61,22 +61,24 @@ class RegistrationForm extends Component {
                 password:password,
                 type:type
             }
-            /*let data={
-                email:"me@you.com",
-                password:"pass",
-                type:"Doctor"
-            }*/
-            //var obj = {"email":"me@you.com", "password": "pass","type": "Doctor"};
-            //var obj = JSON.parse('{"email":'+email+', "password":'+password+',"type":'+type+'}');
-            console.log('{"email":'+email+', "password":'+password+',"type":'+type+'}')
+            console.log(data)
             axios.post('http://127.0.0.1:5000/api/Login',data).then(
                 function (response, err) {
+                    console.log("message received")
                     console.log(response)
-                    if(response.data){
+                    if(response.data.status === 'success'){
+                        let jwtData = response.data.data
+                        jwtData.type = type;
                         this.setState({loading:false})
-                        localStorage.setItem('jwtToken', JSON.stringify(data));
-                        this.props.dispatch({type: 'addUserProfile', data: data});
-                        this.props.dispatch({type: 'activeMenuItem', data: "Dashboard"});
+                        localStorage.setItem('jwtToken', JSON.stringify(jwtData));
+                        this.props.dispatch({type: 'addUserProfile', data: jwtData});
+                        this.props.dispatch({type: 'activeMenuItem', data: "Appointments"});
+
+                    }
+                    else if(response.data.message=== 'Invalid Login'){
+                        this.setState({loading:false})
+                    }else{
+                        this.setState({loading:false})
                     }
                 }.bind(this)
             ).catch(error=>{
@@ -86,7 +88,7 @@ class RegistrationForm extends Component {
     }
     render() {
         if(this.props.userProfile){
-            return (<Redirect to={'/dashboard'}/>);
+            return (<Redirect to={'/appointments'}/>);
         }else {
             return (<div className='registrationForm-Container'>
                 <div className="registrationForm-Container-upper-container">
