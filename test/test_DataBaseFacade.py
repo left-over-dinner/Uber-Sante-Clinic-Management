@@ -3,7 +3,7 @@ import json
 from run import create_app
 
 from Model import db
-from Classes.DatabaseFacade import DatabaseFacade
+from classes.DatabaseFacade import DatabaseFacade
 
 
 app = create_app("config")
@@ -14,7 +14,7 @@ class test_DataBaseFacade(unittest.TestCase):
 
 
     def test_registerDoctor(self):
-        with open('testFacade.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerDoctor(data['json_doc'])
@@ -23,7 +23,7 @@ class test_DataBaseFacade(unittest.TestCase):
         database_facade.removeDoctor(data['json_doc'])
 
     def test_registerNurse(self):
-        with open('testFacade.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerNurse(data['json_nur'])
@@ -32,7 +32,7 @@ class test_DataBaseFacade(unittest.TestCase):
         database_facade.removeNurse(data['json_nur'])
 
     def test_registerPatient(self):
-        with open('testFacade.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerPatient(data['json_pat'])
@@ -42,7 +42,7 @@ class test_DataBaseFacade(unittest.TestCase):
         database_facade.removePatient(data['json_pat'])
 
     def test_registerAvailability(self):
-        with open('testFacade.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerAvailability(data['json_ava'])
@@ -52,7 +52,7 @@ class test_DataBaseFacade(unittest.TestCase):
         database_facade.removeAvailability(data['json_ava'])
 
     def test_registerAppointment(self):
-        with open('testFacade.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerAppointment(data['json_app'])
@@ -61,7 +61,7 @@ class test_DataBaseFacade(unittest.TestCase):
         database_facade.removeAppointemt(data['json_app'])
 
     def test_updateDoctor(self):
-        with open('testFacade.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerDoctor(data['json_doc'])
@@ -77,7 +77,7 @@ class test_DataBaseFacade(unittest.TestCase):
         database_facade.removeDoctor(data['json_doc'])
 
     def test_updateNurse(self):
-        with open('testFacade.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerNurse(data['json_nur'])
@@ -91,7 +91,7 @@ class test_DataBaseFacade(unittest.TestCase):
         database_facade.removeNurse(data['json_nur'])
 
     def test_updatePatient(self):
-        with open('testFacade.json') as data_file:
+        with open('sampleData.json') as data_file:
             data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerPatient(data['json_pat'])
@@ -109,8 +109,8 @@ class test_DataBaseFacade(unittest.TestCase):
         database_facade.removePatient(data['json_pat'])
 
     def test_updateAvailability(self):
-        with open('testFacade.json') as data_file:
-        data = json.load(data_file)
+        with open('sampleData.json') as data_file:
+            data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerAvailability(data['json_ava'])
         database_facade.updateAvailability(data['json_ava1'])
@@ -120,8 +120,8 @@ class test_DataBaseFacade(unittest.TestCase):
         database_facade.removeAvailability(data['json_ava'])
 
     def test_registerAppointment(self):
-        with open('testFacade.json') as data_file:
-        data = json.load(data_file)
+        with open('sampleData.json') as data_file:
+            data = json.load(data_file)
         database_facade = DatabaseFacade.getInstance(db)
         database_facade.registerAppointment(data['json_app'])
         database_facade.updateAppointment(data['json_app1'])

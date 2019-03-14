@@ -36,7 +36,7 @@ class AppointmentResource(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
 
-        result = dbFacade.updateAappointment(json_data)
+        result = dbFacade.updateAppointment(json_data)
 
         return {"status": 'success', 'data': result}, 204
 
