@@ -50,7 +50,6 @@ class AvailabilityResource(Resource):
         json_data = request.get_json(force=True)
         print(json_data)
         if not json_data:
-<<<<<<< HEAD
             resp = make_response(jsonify({'message': 'No input data provided'}))
             resp.headers['Access-Control-Allow-Origin'] = '*'
             return resp
@@ -60,13 +59,6 @@ class AvailabilityResource(Resource):
         resp = make_response(jsonify({"status": 'success', 'data': result}))
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
-=======
-            return {'message': 'No input data provided'}
-        # Validate and deserialize input
 
-        result = dbFacade.removeAvailability(json_data)
-
-        return {"status": 'success', 'data': result}
->>>>>>> master
 
 
