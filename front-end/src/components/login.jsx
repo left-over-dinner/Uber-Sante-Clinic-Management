@@ -5,15 +5,22 @@ import {Button, Form, Header} from 'semantic-ui-react'
 import {Redirect} from "react-router";
 import axios from "axios";
 
+const types = [
+    {key: 'Doctor', value: 'Doctor', text: 'Doctor'},
+    {key: 'Patient', value: 'Patient', text: 'Patient'},
+    {key: 'Nurse', value: 'Nurse', text: 'Nurse'}
+]
 class RegistrationForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: "",
             password: '',
+            type:'',
             errorEmail:false,
             errorPassword:false,
-            loading:false,
+            errorType:false,
+            loading:false
         }
     }
 
@@ -28,40 +35,50 @@ class RegistrationForm extends Component {
         this.setState({password:e.target.value})
         this.setState({errorPassword: false})
     }
+    changeType=(e, {value})=>{
+        this.setState({type: value})
+        this.setState({errorType: false})
+    }
+
     login=()=> {
-        let { email, password} = this.state;
+        let { email, password, type} = this.state;
         console.log("hello")
-        if (!email || !password) {
+        if (!email || !password || !type) {
             if (!email) {
                 this.setState({errorEmail: true})
             }
             if (!password) {
                 this.setState({errorPassword: true})
             }
+            if (!type) {
+                this.setState({errorType: true})
+            }
         } else {
 
             this.setState({loading: true})
-            let data_={
+            let data={
                 email:email,
                 password:password,
-                type:"Doctor"
+                type:type
             }
-            let data={
-                email:"me@you.com",
-                password:"pass",
-                type:"Doctor"
-            }
-            var obj = {"email":"me@you.com", "password": "pass","type": "Doctor"};
-            /*var obj = JSON.parse('{"email":'+email+', "password":'+password+',"type": "Doctor"}');*/
-            console.log(obj)
+            console.log(data)
             axios.post('http://127.0.0.1:5000/api/Login',data).then(
                 function (response, err) {
+                    console.log("message received")
                     console.log(response)
-                    if(response.data){
+                    if(response.data.status === 'success'){
+                        let jwtData = response.data.data
+                        jwtData.type = type;
                         this.setState({loading:false})
-                        localStorage.setItem('jwtToken', JSON.stringify(data));
-                        this.props.dispatch({type: 'addUserProfile', data: data});
-                        this.props.dispatch({type: 'activeMenuItem', data: "Dashboard"});
+                        localStorage.setItem('jwtToken', JSON.stringify(jwtData));
+                        this.props.dispatch({type: 'addUserProfile', data: jwtData});
+                        this.props.dispatch({type: 'activeMenuItem', data: "Appointments"});
+
+                    }
+                    else if(response.data.message=== 'Invalid Login'){
+                        this.setState({loading:false})
+                    }else{
+                        this.setState({loading:false})
                     }
                 }.bind(this)
             ).catch(error=>{
@@ -71,7 +88,7 @@ class RegistrationForm extends Component {
     }
     render() {
         if(this.props.userProfile){
-            return (<Redirect to={'/dashboard'}/>);
+            return (<Redirect to={'/appointments'}/>);
         }else {
             return (<div className='registrationForm-Container'>
                 <div className="registrationForm-Container-upper-container">
@@ -107,6 +124,15 @@ class RegistrationForm extends Component {
                         value={this.state.password}
                         error={this.state.errorPassword}
                         onChange={this.changePassword}
+                    />
+                    <Form.Select
+                        fluid
+                        label='Type'
+                        options={types}
+                        placeholder='Type'
+                        value={this.state.type}
+                        error={this.state.errorType}
+                        onChange={this.changeType}
                     />
                     <Button fluid size='large' style={{marginTop: '10%'}}onClick={this.login}>
                         Login

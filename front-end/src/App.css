@@ -74,6 +74,23 @@
   justify-content: space-between;
   align-items: center;
 }
+.registrationForm-Container-modal{
+  margin: auto;
+  padding: 3%;
+  border-radius: 3px;
+  border: solid 2px #ffffff;
+  background-color: #000000;
+  box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.03);
+  justify-content: space-between;
+  align-items: center;
+}
+.formContainer-modal{
+  width: 80% !important;
+  margin: auto !important;
+}
+.formContainer-modal> div  > label{
+    color: #ffffff !important;
+}
 .registrationForm-Container-upper-container{
   display: flex;
   padding: 10px 20px;
@@ -214,4 +231,15 @@
 .david{
   color: #d0021b !important;
 }
+.appointment-tab > div > a{
+  color: #ffffff !important;
+}
+.appointment-tab > div > a.active{
+  border-bottom: solid 1px #ffffff!important;
+}
+.loader-container{
+  margin: auto !important;
+  padding: 5% !important;
+}
+
 
