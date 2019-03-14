@@ -5,7 +5,7 @@ from flask import json
 from Model import SQLAlchemy, Doctor, Patient, Nurse, Appointment, Availability
 from run import create_app
 from classes.AccountAdapter import AccountAdapter
-from app import json_doc, json_nur, json_pat, json_appointment, json_availability
+import json
 
 
 class FacadeRemoveTests(unittest.TestCase):
@@ -24,15 +24,14 @@ class FacadeRemoveTests(unittest.TestCase):
             Nurse.__table__.create(bind=db.engine)
             Availability.__table__.create(bind=db.engine)
             Appointment.__table__.create(bind=db.engine)
-        testdoctor = AccountAdapter.createFromJSON('Doctor', json_doc)
-        testpatient = AccountAdapter.createFromJSON('Patient', json_pat)
+        with open('sampleData.json') as data_file:
+            data = json.load(data_file)
+        testdoctor = AccountAdapter.createFromJSON('Doctor', data["json_doc"])
+        testpatient = AccountAdapter.createFromJSON('Patient', data["json_pat"])
         testpatient.birth_day = date(1997, 9, 16)
-        testnurse = AccountAdapter.createFromJSON('Nurse', json_nur)
-        testappointment = Appointment(json_appointment['patient_card_number'],
-                                                json_appointment['doctor_permit_number'], date(2019, 3, 11),
-                                                    json_appointment['slots'], json_appointment['appointment_type'])
-        testavailability = Availability(json_availability['availability_id'], json_availability['doctor_permit_number'],
-                                        date(2019, 3, 11), json_availability['slots'])
+        testnurse = AccountAdapter.createFromJSON('Nurse', data["json_nur"])
+        testappointment = Appointment(data["json_app"])
+        testavailability = Availability(data["json_ava"])
         db.session.add_all([testdoctor, testnurse, testpatient, testappointment, testavailability])
         db.session.commit()
 
@@ -50,12 +49,12 @@ class FacadeRemoveTests(unittest.TestCase):
         # assert response._status_code == 200
 
     def test_Remove_Appointment(self):
-        response = self.test.delete('api/Appointment', data=json.dumps(dict(patient_card_number='sample2',
-                                                                          doctor_permit_numbe='436545',
-                                                                          date=date(2019, 3, 11),
-                                                                          slots='[1, 2]',
-                                                                          appointment_type='walk-in',
-                                                                            appointment_id='1')))
+        response = self.test.delete('api/Appointment', data=json.dumps(dict(patient_card_number='98989',
+                                                                          doctor_permit_numbe='98989',
+                                                                          date=date(1900, 1, 9),
+                                                                          slots='[1, 3]',
+                                                                          appointment_type='Checkup',
+                                                                            appointment_id='76765')))
 
 
         # convert the result into json
@@ -75,7 +74,7 @@ class FacadeRemoveTests(unittest.TestCase):
 
     def test_Remove_Availability(self):
 
-        response = self.test.delete('api/Availability', data=json.dumps(dict(availability_id=1)))
+        response = self.test.delete('api/Availability', data=json.dumps(dict(availability_id=99999)))
         # convert the result into json
         tmp = json.loads(response.data)
 

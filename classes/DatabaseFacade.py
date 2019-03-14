@@ -104,7 +104,7 @@ class DatabaseFacade():
         doctor = Doctor.query.filter_by(permit_number=data['permit_number']).first()
         if doctor:
             return {'error': 'doctor already exists'}
-        doctor = AccountAdapter.createFromJSON("Doctor", json_data)
+        doctor = AccountAdapter.createFromJSON('Doctor', json_data)
         db.session.add(doctor)
         db.session.commit()
 
@@ -119,7 +119,7 @@ class DatabaseFacade():
         doctor = Doctor.query.filter_by(permit_number=data['permit_number']).first()
         if not doctor:
             return {'error': 'Category does not exist'}
-        doctor = AccountAdapter.updateFromJSON("Doctor", doctor, json_data)
+        doctor = AccountAdapter.updateFromJSON('Doctor', doctor, json_data)
         db.session.commit()
         result = doctor_schema.dump(doctor).data
         return result
@@ -143,7 +143,7 @@ class DatabaseFacade():
         nurse = Nurse.query.filter_by(access_id=data['access_id']).first()
         if nurse:
             return {'error': 'Nurse already exists'}
-        nurse = AccountAdapter.createFromJSON("Nurse", json_data)
+        nurse = AccountAdapter.createFromJSON('Nurse', json_data)
         db.session.add(nurse)
         db.session.commit()
 
@@ -158,7 +158,7 @@ class DatabaseFacade():
         nurse = Nurse.query.filter_by(access_id=data['access_id']).first()
         if not nurse:
             return {'error': 'Category does not exist'}
-        nurse = AccountAdapter.updateFromJSON("Nurse", nurse, json_data)
+        nurse = AccountAdapter.updateFromJSON('Nurse', nurse, json_data)
         db.session.commit()
         result = nurse_schema.dump(nurse).data
         return result
@@ -182,7 +182,7 @@ class DatabaseFacade():
         patient = Patient.query.filter_by(card_number=data['card_number']).first()
         if patient:
             return {'error': 'Patient already exists'}
-        patient = AccountAdapter.createFromJSON("Patient", json_data)
+        patient = AccountAdapter.createFromJSON('Patient', json_data)
         db.session.add(patient)
         db.session.commit()
 
@@ -197,7 +197,7 @@ class DatabaseFacade():
         patient = Patient.query.filter_by(card_number=data['card_number']).first()
         if not patient:
             return {'error': 'Category does not exist'}
-        patient = AccountAdapter.updateFromJSON("Patient", patient, json_data)
+        patient = AccountAdapter.updateFromJSON('Patient', patient, json_data)
         db.session.commit()
         result = patient_schema.dump(patient).data
         return result
@@ -288,7 +288,7 @@ class DatabaseFacade():
         return result
 
 
-    def updateAappointment(self, json_data):
+    def updateAppointment(self, json_data):
         # Validate and deserialize input
         data, errors = appointment_schema.load(json_data)
         if errors:
