@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, make_response, jsonify
 from flask_restful import Resource
 from Model import db, Appointment, AppointmentSchema
 from classes.DatabaseFacade import DatabaseFacade
@@ -13,16 +13,22 @@ class AppointmentResource(Resource):
 
     def get(self):
         appointments = dbFacade.getAppointments()
-        return {'status': 'success', 'data': appointments}, 200
+        resp = make_response(jsonify({'status': 'success', 'data': appointments}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
     ...
 
     def post(self):
         json_data = request.get_json(force=True)
         if not json_data:
-            return {'message': 'No input data provided'}, 400
+            resp = make_response(jsonify({'message': 'No input data provided'}))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         result = dbFacade.registerAppointment(json_data)
-        return {"status": 'success', 'data': result}, 201
+        resp = make_response(jsonify({"status": 'success', 'data': result}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
     ...
 
     def put(self):
