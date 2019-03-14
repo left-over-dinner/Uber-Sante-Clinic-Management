@@ -9,6 +9,7 @@ class PatientAccountCreator(AccountFactory):
     @classmethod
     def get_account(cls):
         return Patient()
+        pass
     pass
 
 
@@ -17,10 +18,9 @@ class DoctorAccountCreator(AccountFactory):
     @classmethod
     def get_account(cls):
         return Doctor()
+        pass
+
     pass
-
-
-pass
 
 
 class NurseAccountCreator(AccountFactory):
@@ -28,8 +28,7 @@ class NurseAccountCreator(AccountFactory):
     @classmethod
     def get_account(cls):
         return Nurse()
+        pass
+
     pass
-
-
-pass
 
