@@ -1,2 +1,14 @@
+# xenial build images
+dist: xenial
 language: python
-python: 3.7.2
+python:
+  - "3.7"
+  
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  
+# command to run tests
+script:
+  # The task runs everything under the test folder
+  - python -m unittest discover test

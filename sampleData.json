@@ -1,0 +1,34 @@
+{
+  "json_doc":
+  {
+    "last_name"     : "Nickel"     ,
+    "first_name"    : "Peck"       ,
+    "email"         : "me@you"     ,
+    "password"      : "you@pass"   ,
+    "permit_number" : "436545"     ,
+    "location"      : "65767"      ,
+    "specialty"     : "HELLO"
+  },
+
+  "json_pat":
+  {
+    "last_name"     : "OKOKOK"     ,
+    "first_name"    : "sample2"    ,
+    "email"         : "sample2"    ,
+    "password"      : "sample2"    ,
+    "card_number"   : "sample2"    ,
+    "birth_day"     : "1997-09-16" ,
+    "gender"        : "sample2"    ,
+    "phone_number"  : "sample2"    ,
+    "address"       : "sample2"
+  },
+
+  "json_nur":
+  {
+    "last_name"     : "YOLO"       ,
+    "first_name"    : "YOU3"       ,
+    "email"         : "sample3"    ,
+    "password"      : "sample3"    ,
+    "access_id"     : "sample3"
+  }
+}

@@ -1,5 +1,5 @@
 from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema
-from Classes.AccountAdapter import AccountAdapter
+from classes.AccountAdapter import AccountAdapter
 
 # doctor schema
 doctors_schema = DoctorSchema(many=True)

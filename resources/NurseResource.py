@@ -1,7 +1,7 @@
 from flask import request, make_response, jsonify
 from flask_restful import Resource
 from Model import db, Nurse, NurseSchema
-from Classes.DatabaseFacade import DatabaseFacade
+from classes.DatabaseFacade import DatabaseFacade
 #
 nurses_schema = NurseSchema(many=True)
 nurse_schema = NurseSchema()

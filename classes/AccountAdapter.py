@@ -1,4 +1,4 @@
-from Classes.AccountFactory import AccountFactory
+from classes.AccountFactory import AccountFactory
 
 class AccountAdapter():
     def createFromJSON(type,jsonObject):
@@ -10,7 +10,7 @@ class AccountAdapter():
             doctor.password      = jsonObject["password"      ]
             doctor.permit_number = jsonObject["permit_number" ]
             doctor.location      = jsonObject["location"      ]
-            doctor.speciality     = jsonObject["speciality"     ]
+            doctor.specialty     = jsonObject["specialty"     ]
             return doctor
         elif type == "Patient":
             patient = AccountFactory.getAccount("Patient")
@@ -41,7 +41,7 @@ class AccountAdapter():
             account.password      = jsonObject["password"      ]
             account.permit_number = jsonObject["permit_number" ]
             account.location      = jsonObject["location"      ]
-            account.speciality     = jsonObject["speciality"     ]
+            account.specialty     = jsonObject["speciality"     ]
             return account
         elif type == "Patient":
             account.last_name    = jsonObject['last_name'    ]
