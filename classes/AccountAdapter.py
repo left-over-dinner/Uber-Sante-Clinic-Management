@@ -2,7 +2,19 @@ from classes.AccountFactory import AccountFactory
 
 class AccountAdapter():
     def createFromJSON(type,jsonObject):
-        if type == "Doctor":
+        if type == "Patient":
+            patient = AccountFactory.getAccount("Patient")
+            patient.last_name    = jsonObject['last_name'    ]
+            patient.first_name   = jsonObject['first_name'   ]
+            patient.email        = jsonObject['email'        ]
+            patient.password     = jsonObject['password'     ]
+            patient.card_number  = jsonObject['card_number'  ]
+            patient.birth_day    = jsonObject['birth_day'    ]
+            patient.gender       = jsonObject['gender'       ]
+            patient.phone_number = jsonObject['phone_number' ]
+            patient.address      = jsonObject['address'      ]
+            return patient
+        elif type == "Doctor":
             doctor = AccountFactory.getAccount("Doctor")
             doctor.last_name     = jsonObject['last_name'     ]
             doctor.first_name    = jsonObject['first_name'    ]
@@ -10,20 +22,8 @@ class AccountAdapter():
             doctor.password      = jsonObject["password"      ]
             doctor.permit_number = jsonObject["permit_number" ]
             doctor.location      = jsonObject["location"      ]
-            doctor.specialty     = jsonObject["specialty"     ]
+            doctor.speciality     = jsonObject["speciality"     ]
             return doctor
-        elif type == "Patient":
-            patient = AccountFactory.getAccount("Patient")
-            patient.last_name    = jsonObject['last_name'    ]
-            patient.first_name   = jsonObject['first_name'   ]
-            patient.email        = jsonObject["email"        ]
-            patient.password     = jsonObject["password"     ]
-            patient.card_number  = jsonObject['card_number'  ]
-            patient.birth_day    = jsonObject['birth_day'    ]
-            patient.gender       = jsonObject['gender'       ]
-            patient.phone_number = jsonObject['phone_number' ]
-            patient.address      = jsonObject['address'      ]
-            return patient
         elif type == "Nurse":
             nurse = AccountFactory.getAccount("Nurse")
             nurse.last_name  = jsonObject['last_name'  ]

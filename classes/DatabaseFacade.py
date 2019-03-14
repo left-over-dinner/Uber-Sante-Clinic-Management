@@ -43,25 +43,45 @@ class DatabaseFacade():
         doctors = doctors_schema.dump(doctors).data
         return doctors
 
+    def getDoctorsByPermitNumber(self, permit_number_):
+        doctor = Doctor.query.filter_by(permit_number=permit_number_).first()
+        return doctor
+
     def getNurses(self):
         nurses = Nurse.query.all()
         nurses = nurses_schema.dump(nurses).data
         return nurses
+
+    def getNursesByAccessId(self, access_id_):
+        nurse = Nurse.query.filter_by(access_id=access_id_).first()
+        return nurse
 
     def getPatients(self):
         patients = Patient.query.all()
         patients = patients_schema.dump(patients).data
         return patients
 
+    def getPatientsByCardNumber(self, card_number_):
+        patient = Patient.query.filter_by(card_number=card_number_).first()
+        return patient
+
     def getAvailibilities(self):
         availabilities = Availability.query.all()
         availabilities = availabilityies_schema.dump(availabilities).data
         return availabilities
 
+    def getAvailabilityByAvailabiityId(self, availability_id_):
+        availability = Availability.query.filter_by(availability_id=availability_id_).first()
+        return availability
+
     def getAppointments(self):
         appointments = Appointment.query.all()
         appointments = appointments_schema.dump(appointments).data
         return appointments
+
+    def getAppointmentByPatientCard(self, patient_card_number_):
+        availability = Appointment.query.filter_by(patient_card_number=patient_card_number_).first()
+        return availability
 
     def login(self, type, email_, password_):
         if type == "Doctor":
