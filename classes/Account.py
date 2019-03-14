@@ -1,10 +1,10 @@
 class Account:
-    def __init__(self, firstname="", lastname="", email="", password=""):
-        self.firstName = firstname
-        self.lastName = lastname
-        self.email = email
-        self.password = password
+
+    def set_fields(self, fieldsdictionary):
+        fields = fieldsdictionary.items()
+        for key, value in fields:
+            self.__setattr__(key, value)
+        pass
 
 
 pass
-
