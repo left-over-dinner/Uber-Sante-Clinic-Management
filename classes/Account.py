@@ -8,5 +8,4 @@ class Account:
             self.__setattr__(key, value)
         pass
 
-
     pass
