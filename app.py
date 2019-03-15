@@ -7,7 +7,7 @@ from resources.NurseResource import NurseResource
 from resources.Appointment import AppointmentResource
 from resources.Availability import AvailabilityResource
 from resources.LoginResource import LoginResource
-from classes.AccountAdapter import AccountAdapter
+import classes.AccountAdapter
 
 api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
@@ -56,7 +56,7 @@ json_availability['date'] = '2019-03-11'
 json_availability['slots'] = '[1, 2, 3, 4, 5]'
 
 #test = AccountAdapter
-nurse = AccountAdapter.createFromJSON("Patient",json_pat)
+nurse = classes.AccountAdapter.AccountAdapter.createFromJSON("Patient",json_pat)
 print(nurse.last_name)
 
 # Routes

@@ -1,33 +1,34 @@
-from classes.AccountFactory import AccountFactory
-from classes.Doctor import Doctor
-from classes.Nurse import Nurse
-from classes.Patient import Patient
+import classes.AccountFactory
+import classes.Patient
+import classes.Doctor
+import classes.Nurse
 
 
-class PatientAccountCreator(AccountFactory):
-
-    @classmethod
-    def get_account(cls):
-        return Patient()
-        pass
-    pass
-
-
-class DoctorAccountCreator(AccountFactory):
+class PatientAccountCreator(classes.AccountFactory.AccountFactory):
 
     @classmethod
     def get_account(cls):
-        return Doctor()
+        return classes.Patient.Patient()
         pass
 
     pass
 
 
-class NurseAccountCreator(AccountFactory):
+class DoctorAccountCreator(classes.AccountFactory.AccountFactory):
 
     @classmethod
     def get_account(cls):
-        return Nurse()
+        return classes.Doctor.Doctor()
+        pass
+
+    pass
+
+
+class NurseAccountCreator(classes.AccountFactory.AccountFactory):
+
+    @classmethod
+    def get_account(cls):
+        return classes.Nurse.Nurse()
         pass
 
     pass

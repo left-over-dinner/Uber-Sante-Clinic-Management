@@ -1,6 +1,6 @@
-from classes.Account import Account
+import classes.Account
 
 
-class Nurse(Account):
+class Nurse(classes.Account.Account):
     pass
 
