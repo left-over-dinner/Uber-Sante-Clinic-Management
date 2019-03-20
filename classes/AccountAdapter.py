@@ -24,7 +24,7 @@ class AccountAdapter:
             doctor.password      = jsonObject["password"      ]
             doctor.permit_number = jsonObject["permit_number" ]
             doctor.location      = jsonObject["location"      ]
-            doctor.speciality     = jsonObject["speciality"     ]
+            doctor.specialty     = jsonObject["specialty"     ]
             return doctor
         elif type == "Nurse":
             nurse = classes.AccountFactory.AccountFactory.get_account("Nurse")
@@ -43,7 +43,7 @@ class AccountAdapter:
             account.password      = jsonObject["password"      ]
             account.permit_number = jsonObject["permit_number" ]
             account.location      = jsonObject["location"      ]
-            account.specialty     = jsonObject["speciality"     ]
+            account.specialty     = jsonObject["specialty"     ]
             return account
         elif type == "Patient":
             account.last_name    = jsonObject['last_name'    ]
