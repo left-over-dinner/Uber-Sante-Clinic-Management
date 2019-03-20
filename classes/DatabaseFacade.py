@@ -119,7 +119,7 @@ class DatabaseFacade():
         doctor = Doctor.query.filter_by(permit_number=data['permit_number']).first()
         if not doctor:
             return {'error': 'Category does not exist'}
-        doctor = AccountAdapter.updateFromJSON('Doctor', doctor, json_data)
+        doctor = AccountAdapter.updateFromJSON(doctor, json_data)
         db.session.commit()
         result = doctor_schema.dump(doctor).data
         return result
@@ -158,7 +158,7 @@ class DatabaseFacade():
         nurse = Nurse.query.filter_by(access_id=data['access_id']).first()
         if not nurse:
             return {'error': 'Category does not exist'}
-        nurse = AccountAdapter.updateFromJSON('Nurse', nurse, json_data)
+        nurse = AccountAdapter.updateFromJSON(nurse, json_data)
         db.session.commit()
         result = nurse_schema.dump(nurse).data
         return result
@@ -197,7 +197,7 @@ class DatabaseFacade():
         patient = Patient.query.filter_by(card_number=data['card_number']).first()
         if not patient:
             return {'error': 'Category does not exist'}
-        patient = AccountAdapter.updateFromJSON('Patient', patient, json_data)
+        patient = AccountAdapter.updateFromJSON(patient, json_data)
         db.session.commit()
         result = patient_schema.dump(patient).data
         return result
