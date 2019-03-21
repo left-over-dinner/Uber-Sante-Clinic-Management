@@ -12,7 +12,7 @@ dbFacade = DatabaseFacade.getInstance(db)
 class AvailabilityResource(Resource):
 
     def get(self):
-        availabilities = dbFacade.getAvailibilities()
+        availabilities = dbFacade.getAll("Availability")
         resp = make_response(jsonify({'status': 'success', 'data': availabilities}))
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
@@ -25,7 +25,7 @@ class AvailabilityResource(Resource):
             resp = make_response(jsonify({'message': 'No input data provided'}))
             resp.headers['Access-Control-Allow-Origin'] = '*'
             return resp
-        result = dbFacade.registerAvailability(json_data)
+        result = dbFacade.register("Availability", json_data)
         resp = make_response(jsonify({"status": 'success', 'data': result}))
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
@@ -39,7 +39,7 @@ class AvailabilityResource(Resource):
             resp.headers['Access-Control-Allow-Origin'] = '*'
             return resp
         # Validate and deserialize input
-        result = dbFacade.updateAvailibility(json_data)
+        result = dbFacade.update("Availability", json_data)
         resp = make_response(jsonify({"status": 'success', 'data': result}))
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
@@ -55,7 +55,7 @@ class AvailabilityResource(Resource):
             return resp
         # Validate and deserialize input
 
-        result = dbFacade.removeAvailability(json_data)
+        result = dbFacade.remove("Availability", json_data)
         resp = make_response(jsonify({"status": 'success', 'data': result}))
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp

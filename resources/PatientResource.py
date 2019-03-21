@@ -12,7 +12,7 @@ dbFacade = DatabaseFacade.getInstance(db)
 class PatientResource(Resource):
 
     def get(self):
-        patients = dbFacade.getPatients()
+        patients = dbFacade.getAll("Patient")
         return {'status': 'success', 'data': patients}, 200
 
     ...
@@ -23,7 +23,7 @@ class PatientResource(Resource):
             resp = make_response(jsonify({'status': 'failure', 'message': 'No input data provided'}))
             resp.headers['Access-Control-Allow-Origin'] = '*'
             return resp
-        result = dbFacade.registerPatient(json_data)
+        result = dbFacade.register("Patient", json_data)
         if 'error' in result:
             resp = make_response(jsonify({'status': 'failure', 'message': result}))
         else:
@@ -39,7 +39,7 @@ class PatientResource(Resource):
             resp = make_response(jsonify({'status': 'failure', 'message': 'No input data provided'}))
             resp.headers['Access-Control-Allow-Origin'] = '*'
             return resp
-        result = dbFacade.updatePatient(json_data)
+        result = dbFacade.update("Patient", json_data)
         if 'error' in result:
             resp = make_response(jsonify({'status': 'failure', 'message': result}))
         else:
@@ -53,7 +53,7 @@ class PatientResource(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}, 400
-        result = dbFacade.removePatient(json_data)
+        result = dbFacade.remove("Patient", json_data)
         if 'error' in result:
             return {"status": 'failure', 'message': result['error']}, 400
         return {"status": 'success', 'data': result}, 200
