@@ -1,3 +1,4 @@
+from datetime import date
 from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema
 from classes.AccountAdapter import AccountAdapter
 
@@ -183,6 +184,7 @@ class DatabaseFacade():
         if patient:
             return {'error': 'Patient already exists'}
         patient = AccountAdapter.createFromJSON('Patient', json_data)
+        patient.birth_day = date(1990,1,1)
         db.session.add(patient)
         db.session.commit()
 
