@@ -11,4 +11,4 @@ install:
 # command to run tests
 script:
   # The task runs everything under the test folder
-  - python -m unittest discover test
+  - python  -m unittest discover -s test -p "*test__*.py"
