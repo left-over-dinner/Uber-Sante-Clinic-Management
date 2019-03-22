@@ -22,7 +22,7 @@ class AccountAdapter():
             doctor.password      = jsonObject["password"      ]
             doctor.permit_number = jsonObject["permit_number" ]
             doctor.location      = jsonObject["location"      ]
-            doctor.speciality     = jsonObject["speciality"     ]
+            doctor.specialty     = jsonObject["specialty"     ]
             return doctor
         elif type == "Nurse":
             nurse = AccountFactory.getAccount("Nurse")

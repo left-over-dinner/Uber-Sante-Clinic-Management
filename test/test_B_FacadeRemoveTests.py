@@ -9,7 +9,7 @@ import json
 
 
 class FacadeRemoveTests(unittest.TestCase):
-
+    data = None
     # --- Sets up the testing database that will live in the RAM for the duration of the tests
     # and sets up the flask testing client --- #
     @classmethod
@@ -25,28 +25,15 @@ class FacadeRemoveTests(unittest.TestCase):
             Availability.__table__.create(bind=db.engine)
             Appointment.__table__.create(bind=db.engine)
         with open('sampleData.json') as data_file:
-            data = json.load(data_file)
-        testdoctor = AccountAdapter.createFromJSON('Doctor', data["json_doc"])
-        testpatient = AccountAdapter.createFromJSON('Patient', data["json_pat"])
+            FacadeRemoveTests.data = json.load(data_file)
+        testdoctor  = AccountAdapter.createFromJSON('Doctor' , FacadeRemoveTests.data["json_doc"])
+        testpatient = AccountAdapter.createFromJSON('Patient', FacadeRemoveTests.data["json_pat"])
+        testnurse   = AccountAdapter.createFromJSON('Nurse'  , FacadeRemoveTests.data["json_nur"])
         testpatient.birth_day = date(1997, 9, 16)
-        testnurse = AccountAdapter.createFromJSON('Nurse', data["json_nur"])
         testappointment = Appointment(data["json_app"])
         testavailability = Availability(data["json_ava"])
         db.session.add_all([testdoctor, testnurse, testpatient, testappointment, testavailability])
         db.session.commit()
-
-    # def test_Remove_Patient(self):
-    #     response = self.test.delete('api/Patient', data=json_pat)
-    #     responsebytes = response.data
-    #     responsejson = json.loads(responsebytes.decode('utf-8'))
-    #     print(response)
-    #     print(responsebytes)
-        #assertions
-
-        # assert responsejson['data'] == json_pat
-        # assert responsejson['status'] == 'success'
-        # assert response._status == '200 OK'
-        # assert response._status_code == 200
 
     def test_Remove_Appointment(self):
         response = self.test.delete('api/Appointment', data=json.dumps(dict(patient_card_number='98989',
@@ -55,11 +42,8 @@ class FacadeRemoveTests(unittest.TestCase):
                                                                           slots='[1, 3]',
                                                                           appointment_type='Checkup',
                                                                             appointment_id='76765')))
-
-
         # convert the result into json
         tmp = json.loads(response.data)
-
         # assertions
         # status is expected to be success
         assert response._status == '200 OK'
