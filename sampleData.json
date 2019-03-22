@@ -6,8 +6,8 @@
     "email"         : "me@you"     ,
     "password"      : "you@pass"   ,
     "permit_number" : "56765"     ,
-    "location"      : "56765"      ,
-    "speciality"     : "HELLO"
+    "location"      : "Montreal"      ,
+    "specialty"     : "legs"
   },
 
   "json_doc1":
@@ -20,15 +20,38 @@
     "location"      : "Montreal"   ,
     "speciality"     : "chirurgie"
   },
-
-  "json_pat":
+"json_pat_complete":
+{
+  "address": "room 3",
+  "phone_number": "514-5141-1717",
+  "email": "me@me1.ca",
+  "gender": "Male",
+  "birth_day": "1998-09-08",
+  "first_name": "NAMEFIRST",
+  "last_name": "Kong",
+  "password": "pass",
+  "card_number": "12ET395"
+},
+  "json_pat_case":
   {
-    "last_name"     : "OKOKOK"     ,
+    "last_name"     : "Jess"     ,
     "first_name"    : "sample2"    ,
     "email"         : "sample2"    ,
     "password"      : "sample2"    ,
     "card_number"   : "989898"    ,
     "birth_day"     : "1997-09-16" ,
+    "gender"        : "sample2"    ,
+    "phone_number"  : "sample2"    ,
+    "address"       : "sample2"
+  },
+  "json_pat":
+  {
+    "last_name"     : "Jess"     ,
+    "first_name"    : "sample2"    ,
+    "email"         : "sample2"    ,
+    "password"      : "sample2"    ,
+    "card_number"   : "989898"    ,
+    "birth_day"     : "1994-09-08" ,
     "gender"        : "sample2"    ,
     "phone_number"  : "sample2"    ,
     "address"       : "sample2"
@@ -70,7 +93,7 @@
     "doctor_permit_number" : "12345",
     "availability_id": "99999",
     "date" : "2018-08-12",
-    "slots": "[1,4,5]"
+    "slots": [1,4,5]
   },
 
   "json_ava1":
