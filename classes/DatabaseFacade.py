@@ -1,6 +1,10 @@
 from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema
 from classes.AccountAdapter import AccountAdapter
-from classes import AppointmentFacade, AvailabilityFacade, PatientFacade, NurseFacade, DoctorFacade
+from classes.AppointmentFacade import AppointmentFacade
+from classes.AvailabilityFacade import AvailabilityFacade
+from classes.PatientFacade import PatientFacade
+from classes.NurseFacade import NurseFacade
+from classes.DoctorFacade import DoctorFacade
 
 # doctor schema
 doctors_schema = DoctorSchema(many=True)
@@ -37,16 +41,16 @@ class DatabaseFacade():
         else:
             DatabaseFacade.db = db
             DatabaseFacade.instance = self
-            DatabaseFacade.appointmentFacade = AppointmentFacade.getInstance(DatabaseFacade.db)
-            DatabaseFacade.availabilityFacade = AvailabilityFacade.getInstance(DatabaseFacade.db)
-            DatabaseFacade.patientFacade = PatientFacade.getInstance(DatabaseFacade.db)
-            DatabaseFacade.nurseFacade = NurseFacade.getInstance(DatabaseFacade.db)
-            DatabaseFacade.doctorFacade = DoctorFacade.getInstance(DatabaseFacade.db)
 
     # Singleton pattern for DatabaseFacade
     def getInstance(db):
         if DatabaseFacade.instance == None:
             DatabaseFacade(db)
+            DatabaseFacade.appointmentFacade = AppointmentFacade.getInstance(DatabaseFacade.db)
+            DatabaseFacade.availabilityFacade = AvailabilityFacade.getInstance(DatabaseFacade.db)
+            DatabaseFacade.patientFacade = PatientFacade.getInstance(DatabaseFacade.db)
+            DatabaseFacade.nurseFacade = NurseFacade.getInstance(DatabaseFacade.db)
+            DatabaseFacade.doctorFacade = DoctorFacade.getInstance(DatabaseFacade.db)
         return DatabaseFacade.instance
 
     def getAll(self, objectType):
