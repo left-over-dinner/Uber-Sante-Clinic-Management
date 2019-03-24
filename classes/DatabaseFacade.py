@@ -1,7 +1,11 @@
 from datetime import date
 from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema
 from classes.AccountAdapter import AccountAdapter
-from classes import AppointmentFacade, AvailabilityFacade, PatientFacade, NurseFacade, DoctorFacade
+from classes.AppointmentFacade import AppointmentFacade
+from classes.AvailabilityFacade import AvailabilityFacade
+from classes.PatientFacade import PatientFacade
+from classes.NurseFacade import NurseFacade
+from classes.DoctorFacade import DoctorFacade
 
 # doctor schema
 doctors_schema = DoctorSchema(many=True)
@@ -38,85 +42,85 @@ class DatabaseFacade():
         else:
             DatabaseFacade.db = db
             DatabaseFacade.instance = self
+
+    # Singleton pattern for DatabaseFacade
+    def getInstance(db):
+        if (DatabaseFacade.instance == None):
+            DatabaseFacade(db)
             DatabaseFacade.appointmentFacade = AppointmentFacade.getInstance(DatabaseFacade.db)
             DatabaseFacade.availabilityFacade = AvailabilityFacade.getInstance(DatabaseFacade.db)
             DatabaseFacade.patientFacade = PatientFacade.getInstance(DatabaseFacade.db)
             DatabaseFacade.nurseFacade = NurseFacade.getInstance(DatabaseFacade.db)
             DatabaseFacade.doctorFacade = DoctorFacade.getInstance(DatabaseFacade.db)
-
-    # Singleton pattern for DatabaseFacade
-    def getInstance(db):
-        if DatabaseFacade.instance == None:
-            DatabaseFacade(db)
         return DatabaseFacade.instance
 
     def getAll(self, objectType):
         if objectType == "Appointment":
-            DatabaseFacade.appointmentFacade.getAll()
+            return DatabaseFacade.appointmentFacade.getAll()
         elif objectType == "Availability":
-            DatabaseFacade.availabilityFacade.getAll()
+            return DatabaseFacade.availabilityFacade.getAll()
         elif objectType == "Patient":
-            DatabaseFacade.patientFacade.getAll()
+            return DatabaseFacade.patientFacade.getAll()
         elif objectType == "Nurse":
-            DatabaseFacade.nurseFacade.getAll()
+            return DatabaseFacade.nurseFacade.getAll()
         elif objectType == "Doctor":
-            DatabaseFacade.doctorFacade.getAll()
+            return DatabaseFacade.doctorFacade.getAll()
         else:
             raise Exception("No type " + objectType + " found")
 
     def getByIdentifier(self, objectType, identifier):
         if objectType == "Appointment":
-            DatabaseFacade.appointmentFacade.getByIdentifier(identifier)
+            return DatabaseFacade.appointmentFacade.getByIdentifier(identifier)
         elif objectType == "Availability":
-            DatabaseFacade.availabilityFacade.getByIdentifier(identifier)
+            return DatabaseFacade.availabilityFacade.getByIdentifier(identifier)
         elif objectType == "Patient":
-            DatabaseFacade.patientFacade.getByIdentifier(identifier)
+            return DatabaseFacade.patientFacade.getByIdentifier(identifier)
         elif objectType == "Nurse":
-            DatabaseFacade.nurseFacade.getByIdentifier(identifier)
+            return DatabaseFacade.nurseFacade.getByIdentifier(identifier)
         elif objectType == "Doctor":
-            DatabaseFacade.doctorFacade.getByIdentifier(identifier)
+            return DatabaseFacade.doctorFacade.getByIdentifier(identifier)
         else:
             raise Exception("No type " + objectType + " found")
 
     def register(self, objectType, json_data):
         if objectType == "Appointment":
-            DatabaseFacade.appointmentFacade.register(json_data)
+            return DatabaseFacade.appointmentFacade.register(json_data)
         elif objectType == "Availability":
-            DatabaseFacade.availabilityFacade.register(json_data)
+            return DatabaseFacade.availabilityFacade.register(json_data)
         elif objectType == "Patient":
-            DatabaseFacade.patientFacade.register(json_data)
+            return DatabaseFacade.patientFacade.register(json_data)
         elif objectType == "Nurse":
-            DatabaseFacade.nurseFacade.register(json_data)
+            return DatabaseFacade.nurseFacade.register(json_data)
         elif objectType == "Doctor":
-            DatabaseFacade.doctorFacade.register(json_data)
+            return DatabaseFacade.doctorFacade.register(json_data)
         else:
             raise Exception("No type " + objectType + " found")
 
     def update(self, objectType, json_data):
         if objectType == "Appointment":
-            DatabaseFacade.appointmentFacade.update(json_data)
+            return DatabaseFacade.appointmentFacade.update(json_data)
         elif objectType == "Availability":
-            DatabaseFacade.availabilityFacade.update(json_data)
+            return DatabaseFacade.availabilityFacade.update(json_data)
         elif objectType == "Patient":
-            DatabaseFacade.patientFacade.update(json_data)
+            return DatabaseFacade.patientFacade.update(json_data)
         elif objectType == "Nurse":
-            DatabaseFacade.nurseFacade.update(json_data)
+            return DatabaseFacade.nurseFacade.update(json_data)
         elif objectType == "Doctor":
-            DatabaseFacade.doctorFacade.update(json_data)
+            return DatabaseFacade.doctorFacade.update(json_data)
         else:
             raise Exception("No type " + objectType + " found")
 
     def remove(self, objectType, json_data):
         if objectType == "Appointment":
-            DatabaseFacade.appointmentFacade.remove(json_data)
+            return DatabaseFacade.appointmentFacade.remove(json_data)
         elif objectType == "Availability":
-            DatabaseFacade.availabilityFacade.remove(json_data)
+            return DatabaseFacade.availabilityFacade.remove(json_data)
         elif objectType == "Patient":
-            DatabaseFacade.patientFacade.remove(json_data)
+            return DatabaseFacade.patientFacade.remove(json_data)
         elif objectType == "Nurse":
-            DatabaseFacade.nurseFacade.remove(json_data)
+            return DatabaseFacade.nurseFacade.remove(json_data)
         elif objectType == "Doctor":
-            DatabaseFacade.doctorFacade.remove(json_data)
+            return DatabaseFacade.doctorFacade.remove(json_data)
         else:
             raise Exception("No type " + objectType + " found")
 
