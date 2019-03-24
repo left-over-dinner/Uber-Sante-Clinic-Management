@@ -12,7 +12,7 @@ dbFacade = DatabaseFacade.getInstance(db)
 class AppointmentResource(Resource):
 
     def get(self):
-        appointments = dbFacade.getAppointments()
+        appointments = dbFacade.getAll("Appointment")
         resp = make_response(jsonify({'status': 'success', 'data': appointments}))
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
@@ -25,7 +25,7 @@ class AppointmentResource(Resource):
             resp = make_response(jsonify({'message': 'No input data provided'}))
             resp.headers['Access-Control-Allow-Origin'] = '*'
             return resp
-        result = dbFacade.registerAppointment(json_data)
+        result = dbFacade.register("Appointment", json_data)
         resp = make_response(jsonify({"status": 'success', 'data': result}))
         resp.headers['Access-Control-Allow-Origin'] = '*'
         return resp
@@ -36,7 +36,7 @@ class AppointmentResource(Resource):
         if not json_data:
             return {'message': 'No input data provided'}, 400
 
-        result = dbFacade.updateAppointment(json_data)
+        result = dbFacade.update("Appointment", json_data)
 
         return {"status": 'success', 'data': result}, 204
 
@@ -46,7 +46,7 @@ class AppointmentResource(Resource):
         json_data = request.get_json(force=True)
         if not json_data:
             return {'message': 'No input data provided'}
-        result = dbFacade.removeAppointemt(json_data)
+        result = dbFacade.remove("Appointment", json_data)
 
         return {"status": 'success', 'data': result}
 
