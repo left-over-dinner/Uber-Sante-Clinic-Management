@@ -1,9 +1,11 @@
-from classes.AccountFactory import AccountFactory
+import classes.AccountFactory
 
-class AccountAdapter():
+
+class AccountAdapter:
+
     def createFromJSON(type,jsonObject):
         if type == "Patient":
-            patient = AccountFactory.getAccount("Patient")
+            patient = classes.AccountFactory.AccountFactory.get_account("Patient")
             patient.last_name    = jsonObject['last_name'    ]
             patient.first_name   = jsonObject['first_name'   ]
             patient.email        = jsonObject['email'        ]
@@ -15,7 +17,7 @@ class AccountAdapter():
             patient.address      = jsonObject['address'      ]
             return patient
         elif type == "Doctor":
-            doctor = AccountFactory.getAccount("Doctor")
+            doctor = classes.AccountFactory.AccountFactory.get_account("Doctor")
             doctor.last_name     = jsonObject['last_name'     ]
             doctor.first_name    = jsonObject['first_name'    ]
             doctor.email         = jsonObject["email"         ]
@@ -25,7 +27,7 @@ class AccountAdapter():
             doctor.specialty     = jsonObject["specialty"     ]
             return doctor
         elif type == "Nurse":
-            nurse = AccountFactory.getAccount("Nurse")
+            nurse = classes.AccountFactory.AccountFactory.get_account("Nurse")
             nurse.last_name  = jsonObject['last_name'  ]
             nurse.first_name = jsonObject['first_name' ]
             nurse.email      = jsonObject["email"      ]
@@ -41,7 +43,7 @@ class AccountAdapter():
             account.password      = jsonObject["password"      ]
             account.permit_number = jsonObject["permit_number" ]
             account.location      = jsonObject["location"      ]
-            account.specialty     = jsonObject["speciality"     ]
+            account.specialty     = jsonObject["specialty"     ]
             return account
         elif type == "Patient":
             account.last_name    = jsonObject['last_name'    ]
@@ -62,5 +64,4 @@ class AccountAdapter():
             account.access_id  = jsonObject["access_id"  ]
             return account
 
-            
-            
+
