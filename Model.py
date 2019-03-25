@@ -30,6 +30,10 @@ class Patient(db.Model):
         self.last_name = last_name
         self.first_name = first_name
         self.password = password
+    
+    @classmethod
+    def createEmpty(cls):
+        return cls("", None, "", "", "", "", "", "", "")
 
 
 class PatientSchema(ma.Schema):
@@ -65,6 +69,11 @@ class Doctor(db.Model):
         self.location = location
         self.email = email
         self.password = password
+    
+    @classmethod
+    def createEmpty(cls):
+        return cls("", "", "", "", "", "", "")
+    
 
 
 class DoctorSchema(ma.Schema):
@@ -94,6 +103,10 @@ class Nurse(db.Model):
         self.last_name = last_name
         self.first_name = first_name
         self.email = email
+
+    @classmethod
+    def createEmpty(cls):
+        return cls("", "", "", "", "")
 
 
 class NurseSchema(ma.Schema):
