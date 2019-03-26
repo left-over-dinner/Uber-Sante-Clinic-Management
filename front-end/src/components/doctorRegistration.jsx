@@ -103,7 +103,7 @@ class DoctorRegistration extends Component {
             let data={
                 permit_number:permitNumber,
                 location:location,
-                speciality:specialty,
+                specialty:specialty,
                 email:email,
                 password:password,
                 last_name: lastName,
