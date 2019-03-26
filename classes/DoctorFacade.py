@@ -65,7 +65,7 @@ class DoctorFacade():
         doctor = Doctor.query.filter_by(permit_number=data['permit_number']).first()
         if not doctor:
             return {'error': 'Category does not exist'}
-        doctor = AccountAdapter.updateFromJSON('Doctor', doctor, json_data)
+        doctor = AccountAdapter.updateFromJSON(doctor, json_data)
         db.session.commit()
         result = doctor_schema.dump(doctor).data
         return result

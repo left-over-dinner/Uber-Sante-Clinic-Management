@@ -65,7 +65,7 @@ class PatientFacade():
         patient = Patient.query.filter_by(card_number=data['card_number']).first()
         if not patient:
             return {'error': 'Category does not exist'}
-        patient = AccountAdapter.updateFromJSON('Patient', patient, json_data)
+        patient = AccountAdapter.updateFromJSON(patient, json_data)
         db.session.commit()
         result = patient_schema.dump(patient).data
         return result
