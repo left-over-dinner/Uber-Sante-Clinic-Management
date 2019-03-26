@@ -73,6 +73,16 @@ class AppointmentFacade():
         appointment.patient_card_number = json_data['patient_card_number'],
         appointment.doctor_permit_number = json_data['doctor_permit_number'],
         appointment.date = json_data['date'],
+        appointment.appointment_type = json_data['appointment_type'],
+        appointment.slots = None
+        db.session.commit()
+
+        appointment = Appointment.query.filter_by(patient_card_number=data['patient_card_number']).first()
+        if not appointment:
+            return {'error': 'Category does not exist'}
+        appointment.patient_card_number = json_data['patient_card_number'],
+        appointment.doctor_permit_number = json_data['doctor_permit_number'],
+        appointment.date = json_data['date'],
         appointment.slots = json_data['slots'],
         appointment.appointment_type = json_data['appointment_type'],
         db.session.commit()

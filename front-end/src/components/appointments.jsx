@@ -11,13 +11,18 @@ class Appointments extends Component {
         this.state = {
             appointments: [],
             loading:false,
+            availabilities: [],
         }
     }
 
     componentDidMount() {
         if (this.props.userProfile) {
             this.setState({loading: true})
-            let data = {
+            this.getAvailabilities();
+        }
+    }
+    getAppointments=()=>{
+        let data = {
                 email: this.props.userProfile.email
             }
             axios.get('http://127.0.0.1:5000/api/Appointment', data).then(
@@ -52,7 +57,22 @@ class Appointments extends Component {
                 console.log(error)
             });
             console.log('Retrieved data for Appointment.')
-        }
+
+    }
+
+    getAvailabilities=()=>{
+        axios.get('http://127.0.0.1:5000/api/Availability').then(
+                function (response, err) {
+                    console.log(response)
+                    if (response.data) {
+                        console.log(response.data.data)
+                        this.setState({availabilities: response.data.data})
+                        this.getAppointments();
+                    }
+                }.bind(this)
+            ).catch(error => {
+                console.log(error)
+            });
     }
 
 
@@ -78,7 +98,7 @@ class Appointments extends Component {
                              render: () =>
                                  <Tab.Pane attached={false}>
                                      {this.state.appointments.map(appointmentData => {
-                                         return (<Appointment appointments={appointmentData}/>);
+                                         return (<Appointment availabilities={this.state.availabilities} getAvailabilities={this.getAvailabilities} getAppointments={this.getAppointments} appointments={appointmentData}/>);
                                      })}
                                  </Tab.Pane>
                          },

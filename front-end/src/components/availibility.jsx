@@ -8,12 +8,16 @@ import {Redirect} from "react-router";
 import { Modal } from 'antd';
 import {appointments} from "./options";
 import _ from "lodash";
-
 import moment from 'moment'
+import {TimeSlotConverter} from "./calculator";
 
+const myConverter = new TimeSlotConverter();
 const confirm = Modal.confirm;
 
-
+var cardOption=[];
+var appointmentTypeOptions = [
+    {key: 1, value: 'Walk-In', text: 'Walk-In (20min)'},
+    {key: 2, value: 'Annual Checkup', text: "Annual Checkup (60min)"}];
 
 class Availability extends Component {
     constructor(props) {
@@ -26,6 +30,8 @@ class Availability extends Component {
             type: '',
             appointments: [],
             cardNumber: '',
+            appointmentType: '',
+            submit:false,
 
         }
     }
@@ -62,6 +68,7 @@ class Availability extends Component {
     addAppointment=(e,data)=>{
         e.preventDefault();
         console.log(data)
+        var this1= this;
         let array =[];
         data.slots.map(slotData=>{
             let locationIndex = _.findIndex(appointments, function (o) {
@@ -72,11 +79,30 @@ class Availability extends Component {
 
         })
         this.setState({appointments: array});
-        this.setState({visible:true})
         this.setState({date: data.date});
         this.setState({availability: data})
         this.setState({slots: ''});
         this.setState({type: 'add'});
+        this.setState({cardNumber: ""})
+        this.setState({appointmentType: ''})
+        axios.get('http://127.0.0.1:5000/api/Patient').then(
+                function (response, err) {
+                    console.log(response)
+                    if (response.data) {
+                       console.log(response.data)
+                        cardOption=[];
+                        response.data.data.map(patientData=>{
+                            let arr= {key: patientData.card_number, value:patientData.card_number , text: patientData.first_name+" "+patientData.last_name+" - "+ patientData.card_number}
+                            cardOption.push(arr);
+
+                        })
+                        this.setState({visible:true})
+                        console.log(cardOption)
+                    }
+                }.bind(this)
+            ).catch(error => {
+                console.log(error)
+            });
     }
     editAvailability=(e,data)=>{
         e.preventDefault();
@@ -86,6 +112,8 @@ class Availability extends Component {
         this.setState({availability: data})
         this.setState({slots: data.slots});
         this.setState({type: 'edit'});
+        this.setState({appointmentType:data.appointment_type})
+
     }
     handleCancel=()=>{
         this.setState({visible:false})
@@ -93,6 +121,7 @@ class Availability extends Component {
         this.setState({availability: ''})
         this.setState({slots: []});
         this.setState({type: ''});
+        this.setState({appointmentType:''})
     }
     handleOkEdit=()=>{
         let props = this.props;
@@ -116,6 +145,7 @@ class Availability extends Component {
                         this.setState({availability: ''})
                         this.setState({slots: []});
                         this.setState({type: ''});
+                        this.setState({appointmentType:''})
                     }
                 }.bind(this)
             ).catch(error => {
@@ -148,6 +178,7 @@ class Availability extends Component {
                         this.setState({availability: ''})
                         this.setState({slots: []});
                         this.setState({type: ''});
+                        this.setState({appointmentType:''})
                     }
                 }.bind(this)
             ).catch(error => {
@@ -173,6 +204,7 @@ class Availability extends Component {
                         this.setState({availability: ''})
                         this.setState({slots: []});
                         this.setState({type: ''});
+                        this.setState({appointmentType:''})
                     }
                 }.bind(this)
             ).catch(error => {
@@ -191,7 +223,10 @@ class Availability extends Component {
                 doctor_permit_number: this.state.availability.doctor_permit_number,
                 date: this.state.date,
                 slots: array,
-                appointment_type: 'walkin',
+                appointment_type: this.state.appointmentType,
+            }
+            if(this.props.userProfile.type === 'Patient'){
+                data.patient_card_number = this.props.userProfile.card_number;
             }
         console.log(data)
             axios.post('http://127.0.0.1:5000/api/Appointment',data ).then(
@@ -210,12 +245,53 @@ class Availability extends Component {
         this.setState({date:e.target.value});
     }
     changeSlots=(e, {value})=>{
-        this.setState({slots: value})
+        if(this.props.userProfile.type !== 'Doctor' && this.state.type === 'add') {
+            if(value.length === 0){
+                this.setState({slots: value})
+            }else if (value.length === 1) {
+                this.setState({slots: value})
+                if(this.state.appointmentType==='Annual Checkup'){
+                    this.setState({submit : true})
+                }
+            } else if (value.length === 2 && this.state.appointmentType==='Annual Checkup') {
+                if (value[0] + 1 === value[1]) {
+                    this.setState({slots: value})
+                    this.setState({submit : true})
+                }
+            } else if (value.length === 3 && this.state.appointmentType === 'Annual Checkup') {
+                var total = 0;
+                var centerValue = value[1];
+                value.map(slotsData => {
+                    total = total + slotsData;
+                })
+                if (centerValue === total / 3) {
+                    this.setState({slots: value})
+                    this.setState({submit : false})
+                }
+            }
+        }else{
+            this.setState({slots: value})
+        }
     }
-    changeCardNumber=(e)=>{
-        this.setState({cardNumber:e.target.value})
+    changeCardNumber=(e, {value})=>{
+        this.setState({cardNumber:value})
 
     }
+    changeAppointmentType=(e, {value})=>{
+        if(this.state.slots.length>=1 && value ==='Walk-In' ){
+            let array = [];
+            array.push(this.state.slots[0])
+            this.setState({slots: array})
+        }
+        if(this.state.slots.length !== 3 && value ==='Annual Checkup'){
+            this.setState({submit : true})
+        }else{
+            this.setState({submit : false})
+        }
+        this.setState({appointmentType:value})
+
+    }
+
 
     render() {
         if (!this.props.userProfile) {
@@ -228,7 +304,8 @@ class Availability extends Component {
                   visible={this.state.visible}
                   onOk={this.state.type === 'add' ? this.handleOkAdd : this.handleOkEdit}
                   onCancel={this.handleCancel}
-                  okButtonProps={{ disabled: this.state.slots.length > 0 && this.state.date ? (this.state.type === 'add' && this.props.userProfile.type === 'Nurse' && !this.state.cardNumber? true: false) : true }}
+                  okButtonProps={{ disabled: this.state.slots.length > 0 && this.state.date ? (this.state.type === 'add' && this.props.userProfile.type === 'Nurse' && !this.state.cardNumber ? true :
+                      this.props.userProfile.type !== 'Doctor' && this.state.type === 'add' && this.state.submit) : true }}
                   okText={'Submit'}
                 ><div className='registrationForm-Container-modal'>
                   <Form size='large'  loading={this.state.loading} className='formContainer-modal'>
@@ -242,21 +319,31 @@ class Availability extends Component {
                         value={this.state.date}
                         min={moment(new Date()).format('YYYY-MM-DD')}
                         onChange={this.changeDate}/>
-                      {this.state.type === 'add' && this.props.userProfile.type === 'Nurse' ?
-                    <Form.Input
-                    icon='address card'
-                    iconPosition='left'
+                      {this.state.type === 'add' && this.props.userProfile.type !== 'Doctor' ?
+                    <Form.Select
+                    search fluid
                     placeholder='ex: KEPE 242141 01'
                     label='Patient Health Card Number:'
-                    value={this.state.cardNumber}
+                    disabled={this.props.userProfile.type === 'Patient'}
+                    value={this.props.userProfile.type === 'Patient' ? this.props.userProfile.card_number : this.state.cardNumber}
+                    options={cardOption}
                     onChange={this.changeCardNumber}/>: ''}
+                    {this.state.type === 'add' && this.props.userProfile.type !== 'Doctor' ?
+                    <Form.Select
+                        fluid
+                    placeholder='ex: Walk-In (20min)'
+                    label='Appointment Type:'
+                    value={this.state.appointmentType}
+                    options={appointmentTypeOptions}
+                    onChange={this.changeAppointmentType}/>:''}
                 <Form.Select
                     fluid multiple
                     label='Time Slots'
+                    disabled={!this.state.appointmentType && this.props.userProfile.type !== 'Doctor' && this.state.type === 'add'}
                     placeholder='Please Select Time Slot'
                     options={this.state.type === 'add' ? this.state.appointments : appointments}
                     value={this.state.slots}
-                    onChange={this.changeSlots}
+                    onChange={this.changeSlots}/>
                 />
             </Form>
                 </div>
@@ -273,7 +360,9 @@ class Availability extends Component {
                         <div className="cal-desc">
                             <div className="cal-title">
                                 <span className="cal-title-des"> {this.props.availability.appointment_type}</span>
-                                <span lassName="cal-title-time">  Slots : {this.props.availability.slots} </span>
+                                <span lassName="cal-title-time">  Slots : {myConverter.convertArray(this.props.availability.slots).map(slotData=>{
+                                    return(<div>{slotData}</div>);
+                                })} </span>
                             </div>
                         </div>
                         <div className="PMC-Delete-Edit-buttons">
