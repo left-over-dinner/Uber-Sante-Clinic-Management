@@ -65,6 +65,7 @@ class AppointmentFacade():
     def update(self, json_data):
         # Validate and deserialize input
         data, errors = appointment_schema.load(json_data)
+        print(json_data['slots']);
         if errors:
             return {'error': errors}
         appointment = Appointment.query.filter_by(patient_card_number=data['patient_card_number']).first()
@@ -83,8 +84,8 @@ class AppointmentFacade():
         appointment.patient_card_number = json_data['patient_card_number'],
         appointment.doctor_permit_number = json_data['doctor_permit_number'],
         appointment.date = json_data['date'],
-        appointment.slots = json_data['slots'],
         appointment.appointment_type = json_data['appointment_type'],
+        appointment.slots = json_data['slots']
         db.session.commit()
 
         result = appointment_schema.dump(appointment).data

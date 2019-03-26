@@ -185,30 +185,54 @@ class Appointment extends Component {
             })
             if(!pointer){
                 array.push(oldSlotData)
+                console.log(array)
             }
         })
         array = array.sort(function (a, b) {
             return a - b
         });
+        array = _.sortedUniq(array)
         console.log(array)
-        let data = {
-            availability_id: availabilityData.availability_id,
-            doctor_permit_number: availabilityData.doctor_permit_number,
-            date: availabilityData.date,
-            slots: array,
-        }
-        console.log(data)
-        axios.put('http://127.0.0.1:5000/api/Availability', data).then(
-            function (response, err) {
-                console.log(response)
-                if (response.data) {
-                    props.getAvailabilities();
+        if(array.length ===0){
+            let data = {
+                availability_id: availabilityData.availability_id,
+                doctor_permit_number: availabilityData.doctor_permit_number,
+                date: availabilityData.date,
+                slots: array,
+            }
+            console.log(data)
+            axios.delete('http://127.0.0.1:5000/api/Availability', {data}).then(
+                function (response, err) {
+                    console.log(response)
+                    if (response.data) {
+                        props.getAvailabilities();
 
-                }
-            }.bind(this)
-        ).catch(error => {
-            console.log(error)
-        });
+                    }
+                }.bind(this)
+            ).catch(error => {
+                console.log(error)
+            });
+
+        }else {
+            let data = {
+                availability_id: availabilityData.availability_id,
+                doctor_permit_number: availabilityData.doctor_permit_number,
+                date: availabilityData.date,
+                slots: array,
+            }
+            console.log(data)
+            axios.put('http://127.0.0.1:5000/api/Availability', data).then(
+                function (response, err) {
+                    console.log(response)
+                    if (response.data) {
+                        props.getAvailabilities();
+
+                    }
+                }.bind(this)
+            ).catch(error => {
+                console.log(error)
+            });
+        }
     }
     addAvailability(appointmentData){
         let props = this.props;
@@ -244,13 +268,14 @@ class Appointment extends Component {
             }
 
         })
+        array = _.sortedUniq(array)
             let data ={
                 doctor_permit_number: appointmentData.doctor_permit_number,
                 date: appointmentData.date,
                 slots: array,
             }
         console.log(data)
-            /*axios.post('http://127.0.0.1:5000/api/Availability',data ).then(
+            axios.post('http://127.0.0.1:5000/api/Availability',data ).then(
                 function (response, err) {
                     console.log(response)
                     if (response.data) {
@@ -259,7 +284,7 @@ class Appointment extends Component {
                 }.bind(this)
             ).catch(error => {
                 console.log(error)
-            });*/
+            });
     }
 
     handleOkAdd=()=>{
@@ -270,16 +295,11 @@ class Appointment extends Component {
         let data ={
                 patient_card_number: this.state.appointment.patient_card_number,
                 doctor_permit_number: this.state.appointment.doctor_permit_number,
-                date: this.state.appointment.date,
+                date: this.state.date,
                 slots: array,
                 appointment_type: this.state.appointmentType,
             }
         console.log(data)
-       /* if(this.state.availability){
-                            this1.updateAvailability2(this.state.availability)
-                        }else{
-                            this1.addAvailability2(this.state.appointment)
-                        }*/
             axios.put('http://127.0.0.1:5000/api/Appointment',data ).then(
                 function (response, err) {
                     console.log(response)
@@ -290,6 +310,13 @@ class Appointment extends Component {
                         }else{
                             this1.addAvailability2(this.state.appointment)
                         }
+                        this.setState({visible:false})
+                        this.setState({date: ''});
+                        this.setState({availability: ''})
+                        this.setState({slots: []});
+                        this.setState({appointmentType:''})
+                        this.setState({appointments:[]})
+                        this.setState({appointment:''})
                     }
                 }.bind(this)
             ).catch(error => {
@@ -374,7 +401,6 @@ class Appointment extends Component {
                     options={this.state.appointments}
                     value={this.state.slots}
                     onChange={this.changeSlots}/>
-                />
             </Form>
                 </div>
                 </Modal>
