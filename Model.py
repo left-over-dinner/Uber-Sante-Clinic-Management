@@ -35,6 +35,12 @@ class Patient(db.Model):
     def createEmpty(cls):
         return cls("", None, "", "", "", "", "", "", "")
 
+    def set_fields(self, fields_dictionary):
+        fields = fields_dictionary.items()
+        for key, value in fields:
+            self.__setattr__(key, value)
+        pass
+
 
 class PatientSchema(ma.Schema):
     card_number = fields.String()
@@ -73,6 +79,12 @@ class Doctor(db.Model):
     @classmethod
     def createEmpty(cls):
         return cls("", "", "", "", "", "", "")
+
+    def set_fields(self, fields_dictionary):
+        fields = fields_dictionary.items()
+        for key, value in fields:
+            self.__setattr__(key, value)
+        pass
     
 
 
@@ -107,6 +119,12 @@ class Nurse(db.Model):
     @classmethod
     def createEmpty(cls):
         return cls("", "", "", "", "")
+
+    def set_fields(self, fields_dictionary):
+        fields = fields_dictionary.items()
+        for key, value in fields:
+            self.__setattr__(key, value)
+        pass
 
 
 class NurseSchema(ma.Schema):

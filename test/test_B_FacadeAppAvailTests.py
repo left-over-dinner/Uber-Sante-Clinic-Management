@@ -55,7 +55,7 @@ def test_registerAvailability(self):
         #assert doctor.password == "pass"
         #assert doctor.permit_number == "56765"
         #assert doctor.location == "Montreal"
-        #assert doctor.speciality == "chirurgie"
+        #assert doctor.specialty == "chirurgie"
         #database_facade.removeDoctor(data['json_doc'])
         assert 5==5
 
