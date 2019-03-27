@@ -13,7 +13,9 @@ class PatientResource(Resource):
 
     def get(self):
         patients = dbFacade.getAll("Patient")
-        return {'status': 'success', 'data': patients}, 200
+        resp = make_response(jsonify({'status': 'success', 'data': patients}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
     ...
 

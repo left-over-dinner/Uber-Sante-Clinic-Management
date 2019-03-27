@@ -34,19 +34,24 @@ class AppointmentResource(Resource):
     def put(self):
         json_data = request.get_json(force=True)
         if not json_data:
-            return {'message': 'No input data provided'}, 400
-
+            resp = make_response(jsonify({'message': 'No input data provided'}))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         result = dbFacade.update("Appointment", json_data)
-
-        return {"status": 'success', 'data': result}, 204
+        resp = make_response(jsonify({"status": 'success', 'data': result}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
     ...
 
     def delete(self):
         json_data = request.get_json(force=True)
         if not json_data:
-            return {'message': 'No input data provided'}
+            resp = make_response(jsonify({'message': 'No input data provided'}))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
         result = dbFacade.remove("Appointment", json_data)
-
-        return {"status": 'success', 'data': result}
+        resp = make_response(jsonify({"status": 'success', 'data': result}))
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        return resp
 
