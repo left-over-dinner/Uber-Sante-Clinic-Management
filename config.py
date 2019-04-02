@@ -5,4 +5,4 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 SQLALCHEMY_ECHO = False
 SQLALCHEMY_TRACK_MODIFICATIONS = True
-SQLALCHEMY_DATABASE_URI = "mysql://eglen@eglencecaj:Soen344room3@eglencecaj.mysql.database.azure.com/soen344"
+SQLALCHEMY_DATABASE_URI = "mysql://eglen@room3:Concordia01@room3.mysql.database.azure.com/soen344"
