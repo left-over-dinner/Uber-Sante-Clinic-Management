@@ -73,7 +73,7 @@ class test_DataBaseFacade(unittest.TestCase):
         assert doctor.password == "pass"
         assert doctor.permit_number == "56765"
         assert doctor.location == "Montreal"
-        assert doctor.speciality == "chirurgie"
+        assert doctor.specialty == "chirurgie"
         database_facade.remove("Doctor", data['json_doc'])
 
     def test_updateNurse(self):

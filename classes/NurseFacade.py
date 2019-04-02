@@ -65,7 +65,7 @@ class NurseFacade():
         nurse = Nurse.query.filter_by(access_id=data['access_id']).first()
         if not nurse:
             return {'error': 'Category does not exist'}
-        nurse = AccountAdapter.updateFromJSON('Nurse', nurse, json_data)
+        nurse = AccountAdapter.updateFromJSON(nurse, json_data)
         db.session.commit()
         result = nurse_schema.dump(nurse).data
         return result
