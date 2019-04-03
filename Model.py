@@ -87,7 +87,6 @@ class Doctor(db.Model):
         for key, value in fields:
             self.__setattr__(key, value)
         pass
-    
 
 
 class DoctorSchema(ma.Schema):
