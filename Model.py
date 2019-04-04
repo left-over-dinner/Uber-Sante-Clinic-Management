@@ -197,12 +197,6 @@ class AvailabilitySchema(ma.Schema):
     date = fields.Date()
     slots = fields.Raw()
 
-class CustomAvailabilities(ma.Schema):
-    availability_id      = fields.Int   ()
-    doctor_permit_number = fields.String()
-    date                 = fields.Date  ()
-    slots                = fields.Raw   ()
-
 
 # ------------------------------- Availability end ------------------------------------
 
