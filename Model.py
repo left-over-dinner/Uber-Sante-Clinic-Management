@@ -66,8 +66,9 @@ class Doctor(db.Model):
     location = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=False)
     password = db.Column(db.String(250), nullable=False)
+    clinic_id = db.Column(db.Integer, db.ForeignKey('clinics.clinic_id'), nullable=False)
 
-    def __init__(self, permit_number, last_name, first_name, specialty, location, email, password):
+    def __init__(self, permit_number, last_name, first_name, specialty, location, email, password, clinic_id):
         self.permit_number = permit_number
         self.last_name = last_name
         self.first_name = first_name
@@ -75,17 +76,17 @@ class Doctor(db.Model):
         self.location = location
         self.email = email
         self.password = password
+        self.clinic_id = clinic_id
     
     @classmethod
     def createEmpty(cls):
-        return cls("", "", "", "", "", "", "")
+        return cls("", "", "", "", "", "", "","")
 
     def set_fields(self, fields_dictionary):
         fields = fields_dictionary.items()
         for key, value in fields:
             self.__setattr__(key, value)
         pass
-    
 
 
 class DoctorSchema(ma.Schema):
@@ -96,6 +97,7 @@ class DoctorSchema(ma.Schema):
     location = fields.String()
     email = fields.String()
     password = fields.String()
+    clinic_id = fields.Int()
 
 
 # ------------------------------- Doctor end ------------------------------------
@@ -108,17 +110,19 @@ class Nurse(db.Model):
     last_name = db.Column(db.String(250), nullable=False)
     first_name = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=False)
+    clinic_id = db.Column(db.Integer, db.ForeignKey('clinics.clinic_id'), nullable=False)
 
-    def __init__(self, access_id, password, last_name, first_name, email):
+    def __init__(self, access_id, password, last_name, first_name, email, clinic_id):
         self.access_id = access_id
         self.password = password
         self.last_name = last_name
         self.first_name = first_name
         self.email = email
+        self.clinic_id = clinic_id
 
     @classmethod
     def createEmpty(cls):
-        return cls("", "", "", "", "")
+        return cls("", "", "", "", "", "")
 
     def set_fields(self, fields_dictionary):
         fields = fields_dictionary.items()
@@ -133,6 +137,7 @@ class NurseSchema(ma.Schema):
     last_name = fields.String()
     first_name = fields.String()
     email = fields.String()
+    clinic_id = fields.Int()
 
 
 # ------------------------------- Nurse end ------------------------------------
@@ -193,5 +198,34 @@ class AvailabilitySchema(ma.Schema):
     slots = fields.Raw()
 
 
-# ------------------------------- Nurse end ------------------------------------
+# ------------------------------- Availability end ------------------------------------
 
+# ------------------------------- Clinic start ------------------------------------
+class Clinics(db.Model):
+    __tablename__ = 'clinics'
+    clinic_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(250), nullable=False)
+    no_doctors = db.Column(db.INT(), nullable=False)
+    no_nurses = db.Column(db.INT(), nullable=False)
+    no_rooms = db.Column(db.INT(), nullable=False)
+    schedule = db.Column(db.String(250), nullable=False)
+
+    def __init__(self, name, no_doctors, no_nurses, no_rooms, schedule):
+        # this column is set to auto-increment by the database
+        # it must not be supplied in the constructor
+        #self.clinic_id = clinic_id
+        self.name = name
+        self.no_doctors = no_doctors
+        self.no_nurses = no_nurses
+        self.no_rooms = no_rooms
+        self.schedule = schedule
+
+
+class ClinicsSchema(ma.Schema):
+    name = fields.String()
+    no_doctors = fields.Int()
+    no_nurses = fields.Int()
+    no_rooms = fields.Int()
+    schedule = fields.String()
+
+# ------------------------------- Clinic end ------------------------------------
