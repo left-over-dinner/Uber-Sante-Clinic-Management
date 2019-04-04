@@ -1,5 +1,6 @@
-from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema
+from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema,CustomAvailabilities
 from classes.AccountAdapter import AccountAdapter
+from classes.ProxyObjectAdapter import ProxyObjectAdapter, customDateFormat
 
 # doctor schema
 doctors_schema = DoctorSchema(many=True)
@@ -13,6 +14,7 @@ patient_schema = PatientSchema()
 #availiblility schema
 availabilityies_schema = AvailabilitySchema(many=True)
 availability_schema = AvailabilitySchema()
+customAvailabilities_schema = CustomAvailabilities(many=True)
 #appointment schema
 appointments_schema = AppointmentSchema(many=True)
 appointment_schema = AppointmentSchema()
@@ -34,9 +36,9 @@ class AvailabilityFacade():
         return AvailabilityFacade.instance
 
     def getAll(self):
-        availabilities = Availability.query.all()
-        availabilities = availabilityies_schema.dump(availabilities).data
-        return availabilities
+        result = db.engine.execute("SELECT availability.availability_id, availability.date, availability.doctor_permit_number, availability.slots,doctor.first_name doctorFirstName,doctor.last_name doctorLastName,doctor.email doctorEmail,doctor.location doctorLocation,doctor.specialty doctorSpecialty,doctor.clinic_id FROM availability INNER JOIN doctor on availability.doctor_permit_number = doctor.permit_number")
+        result = ProxyObjectAdapter.toArray(result, customDateFormat)
+        return result
 
     def getAvailabilityByIdentifier(self, availability_id_):
         availability = Availability.query.filter_by(availability_id=availability_id_).first()
