@@ -7,6 +7,7 @@ from resources.NurseResource import NurseResource
 from resources.Appointment import AppointmentResource
 from resources.Availability import AvailabilityResource
 from resources.LoginResource import LoginResource
+from resources.ClinicResource import ClinicsResource
 import classes.AccountAdapter
 
 api_bp = Blueprint('api', __name__)
@@ -69,5 +70,6 @@ api.add_resource(DoctorResource, '/Doctor')
 api.add_resource(NurseResource, '/Nurse')
 api.add_resource(AppointmentResource, '/Appointment')
 api.add_resource(AvailabilityResource, '/Availability')
+api.add_resource(ClinicsResource, '/Clinics')
 api.add_resource(LoginResource, '/Login')
 #includes login and logout
