@@ -1,10 +1,11 @@
-from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema
+from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema, Clinics, ClinicsSchema
 from classes.AccountAdapter import AccountAdapter
 from classes.AppointmentFacade import AppointmentFacade
 from classes.AvailabilityFacade import AvailabilityFacade
 from classes.PatientFacade import PatientFacade
 from classes.NurseFacade import NurseFacade
 from classes.DoctorFacade import DoctorFacade
+from classes.ClinicsFacade import ClinicsFacade
 
 # doctor schema
 doctors_schema = DoctorSchema(many=True)
@@ -21,6 +22,9 @@ availability_schema = AvailabilitySchema()
 #appointment schema
 appointments_schema = AppointmentSchema(many=True)
 appointment_schema = AppointmentSchema()
+#Clinics schema
+clinics_schema = ClinicsSchema(many=True)
+clinic_schema = ClinicsSchema()
 
 
 
@@ -51,6 +55,7 @@ class DatabaseFacade():
             DatabaseFacade.patientFacade = PatientFacade.getInstance(DatabaseFacade.db)
             DatabaseFacade.nurseFacade = NurseFacade.getInstance(DatabaseFacade.db)
             DatabaseFacade.doctorFacade = DoctorFacade.getInstance(DatabaseFacade.db)
+            DatabaseFacade.clinicsFacade = ClinicsFacade.getInstance(DatabaseFacade.db)
         return DatabaseFacade.instance
 
     def getAll(self, objectType):
@@ -64,6 +69,8 @@ class DatabaseFacade():
             return DatabaseFacade.nurseFacade.getAll()
         elif objectType == "Doctor":
             return DatabaseFacade.doctorFacade.getAll()
+        elif objectType == "Clinics":
+            return DatabaseFacade.clinicsFacade.getAll()
         else:
             raise Exception("No type " + objectType + " found")
 

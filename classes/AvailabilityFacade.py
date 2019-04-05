@@ -1,5 +1,6 @@
 from Model import db, Doctor, DoctorSchema, Nurse, NurseSchema, Patient, PatientSchema, Availability, Appointment, AppointmentSchema, AvailabilitySchema
 from classes.AccountAdapter import AccountAdapter
+from classes.ProxyObjectAdapter import ProxyObjectAdapter, customDateFormat, customSlotsFormat
 
 # doctor schema
 doctors_schema = DoctorSchema(many=True)
@@ -34,9 +35,9 @@ class AvailabilityFacade():
         return AvailabilityFacade.instance
 
     def getAll(self):
-        availabilities = Availability.query.all()
-        availabilities = availabilityies_schema.dump(availabilities).data
-        return availabilities
+        result = db.engine.execute("SELECT availability.availability_id, availability.date, availability.doctor_permit_number, availability.slots,doctor.first_name doctorFirstName,doctor.last_name doctorLastName,doctor.email doctorEmail,doctor.location doctorLocation,doctor.specialty doctorSpecialty,doctor.clinic_id FROM availability INNER JOIN doctor on availability.doctor_permit_number = doctor.permit_number")
+        result = ProxyObjectAdapter.toArray(result, [customDateFormat, customSlotsFormat])
+        return result
 
     def getAvailabilityByIdentifier(self, availability_id_):
         availability = Availability.query.filter_by(availability_id=availability_id_).first()
