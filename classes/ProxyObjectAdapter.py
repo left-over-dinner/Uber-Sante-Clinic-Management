@@ -14,7 +14,7 @@ class ProxyObjectAdapter:
 
 class customDateFormat:
     def ifChangesRequired(key, data):
-        if key == "date":
+        if key == "date" and data is not None:
             return data.strftime('%Y-%m-%d')
         else: 
             return data
