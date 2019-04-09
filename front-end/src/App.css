@@ -200,6 +200,10 @@
   color: rgba(0,0,0,.87);
   margin-top: 1%;
   margin-right: 2%;
+  display: flex;
+}
+.topbar-cart-container{
+  margin-right: 20px !important;
 }
 .formContainer{
     min-height: 60vh !important;
