@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import { Image} from 'semantic-ui-react'
 import UberLogo from '../images/uber-logo.jpg'
+import {Icon} from 'semantic-ui-react'
 
 class Topbar extends Component {
     constructor(props) {
@@ -21,7 +21,11 @@ class Topbar extends Component {
             <div className='main-container-topBar'>
             <div className='uberText'>UBER SANTÉ</div>
 
-                <div className='topbar-text'>{this.props.userProfile? 'Logged In As ('+this.props.userProfile.type+'): '+this.props.userProfile.email : ''}</div>
+                <div className='topbar-text'>
+                    <div>
+                    {this.props.userProfile? 'Logged In As ('+this.props.userProfile.type+'): '+this.props.userProfile.email : ''}
+                    </div>
+                </div>
             </div>)
     }
 }
