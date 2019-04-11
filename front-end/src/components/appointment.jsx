@@ -300,7 +300,24 @@ class Appointment extends Component {
                 appointment_type: this.state.appointmentType,
             }
         console.log(data)
-            axios.put('http://127.0.0.1:5000/api/Appointment',data ).then(
+        if(!localStorage.getItem('cartAppointments')) {
+            var cartAppointments = []
+            cartAppointments.push(JSON.stringify(data))
+            localStorage.setItem('cartAppointments', cartAppointments)
+        }
+        else{
+            var currentCart = localStorage.getItem('cartAppointments')
+            currentCart.push(JSON.stringify(data))
+            localStorage.setItem('cartAppointments', currentCart)
+        }
+        this.setState({visible:false})
+        this.setState({date: ''});
+        this.setState({availability: ''})
+        this.setState({slots: []});
+        this.setState({appointmentType:''})
+        this.setState({appointments:[]})
+        this.setState({appointment:''})
+           /*axios.put('http://127.0.0.1:5000/api/Appointment',data ).then(
                 function (response, err) {
                     console.log(response)
                     if (response.data) {
@@ -321,7 +338,7 @@ class Appointment extends Component {
                 }.bind(this)
             ).catch(error => {
                 console.log(error)
-            });
+            });*/
     }
 
     changeSlots=(e, {value})=>{
