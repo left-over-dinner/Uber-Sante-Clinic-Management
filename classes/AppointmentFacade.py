@@ -36,8 +36,9 @@ class AppointmentFacade():
 
     def getAll(self):
         result = db.engine.execute("SELECT appointment.patient_card_number, appointment.appointment_id, appointment.date, appointment.doctor_permit_number, appointment.appointment_type, appointment.slots,  patient.first_name patientFirstName,patient.last_name patientLastName,patient.phone_number patientPhone,patient.email patientEmail,patient.gender patientGender,doctor.first_name doctorFirstName,doctor.last_name doctorLastName,doctor.email doctorEmail,doctor.clinic_id FROM appointment INNER JOIN patient  ON appointment.patient_card_number = patient.card_number INNER JOIN doctor on appointment.doctor_permit_number = doctor.permit_number")
-        result = ProxyObjectAdapter.toArray(result, [customDateFormat, customSlotsFormat])
-        return result
+        glass = ProxyObjectAdapter.toArray(result, [customDateFormat, customSlotsFormat])
+        #print(glass)
+        return glass
 
     def getByIdentifier(self, patient_card_number_):
         availability = Appointment.query.filter_by(patient_card_number=patient_card_number_).first()
@@ -48,6 +49,8 @@ class AppointmentFacade():
         data, errors = appointment_schema.load(json_data)
         if errors:
             return {'error': errors}
+        print("FACADE DATE 1")
+        print(json_data['date'])
         appointment = Appointment(
             patient_card_number=json_data['patient_card_number'],
             doctor_permit_number=json_data['doctor_permit_number'],
@@ -55,7 +58,8 @@ class AppointmentFacade():
             slots=json_data['slots'],
             appointment_type=json_data['appointment_type'],
         )
-
+        print("FACADE DATE 2")
+        print(appointment.date)
         db.session.add(appointment)
         db.session.commit()
 
