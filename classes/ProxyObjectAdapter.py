@@ -20,7 +20,6 @@ class customDateFormat:
         if key == "date" and data is not None:
             return data.strftime('%Y-%m-%d')
         else:
-            #print("YOLO")
             return None
     pass
 
