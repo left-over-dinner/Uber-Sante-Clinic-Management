@@ -12,6 +12,7 @@ class ProxyObjectAdapter:
                     if adaptedFormat is not None:
                         rowObj[key] = adaptedFormat
                         break
+                    else: rowObj[key] = row[key]
             data.append(rowObj)
         return data
 
@@ -28,5 +29,5 @@ class customSlotsFormat:
         if key == "slots":
             return json.loads(data)
         else: 
-            return data
+            return None
     pass
