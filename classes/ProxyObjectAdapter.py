@@ -7,8 +7,12 @@ class ProxyObjectAdapter:
         for row in proxyObject:
             rowObj = {}
             for key in keys:
-                for format in customFormats:
-                    rowObj[key] = format.ifChangesRequired(key, row[key])
+                for formatQ in customFormats:
+                    adaptedFormat = formatQ.ifChangesRequired(key, row[key])
+                    if adaptedFormat is not None:
+                        rowObj[key] = adaptedFormat
+                        break
+                    else: rowObj[key] = row[key]
             data.append(rowObj)
         return data
 
@@ -16,12 +20,14 @@ class customDateFormat:
     def ifChangesRequired(key, data):
         if key == "date" and data is not None:
             return data.strftime('%Y-%m-%d')
-        else: 
-            return data
+        else:
+            return None
+    pass
 
 class customSlotsFormat:
     def ifChangesRequired(key, data):
         if key == "slots":
             return json.loads(data)
         else: 
-            return data
+            return None
+    pass
