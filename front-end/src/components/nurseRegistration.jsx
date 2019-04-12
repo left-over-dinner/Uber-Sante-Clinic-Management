@@ -4,6 +4,9 @@ import {withRouter} from 'react-router-dom'
 import {Button, Form, Header} from 'semantic-ui-react'
 import axios from "axios";
 
+var Clinics=[];
+var Nurses=[];
+
 class NurseRegistration extends Component {
     constructor(props) {
         super(props);
@@ -21,12 +24,46 @@ class NurseRegistration extends Component {
             errorEmail:false,
             errorPassword:false,
             errorConfirmPassword: false,
+            errorClinicID:false,
             errorType: false,
             loading:false,
+            clinic_id: '',
         }
     }
 
     componentDidMount() {
+        Nurses=[];
+            axios.get('http://127.0.0.1:5000/api/Nurse').then(
+                function (response, err) {
+                    console.log(response)
+                    if (response.data) {
+                        console.log(response.data.data)
+                        response.data.data.map(nurseData=>{
+                            Nurses.push(nurseData);
+                        })
+                    }
+                }.bind(this)
+            ).catch(error => {
+                console.log(error)
+            });
+
+        Clinics=[];
+            axios.get('http://127.0.0.1:5000/api/Clinics').then(
+                function (response, err) {
+                    console.log(response)
+                    if (response.data) {
+                        console.log(response.data.data)
+                        response.data.data.map(clinicData=>{
+                            console.log(clinicData)
+                            let arr= {key: clinicData.clinic_id, value: clinicData.clinic_id, text: clinicData.name}
+                            Clinics.push(arr);
+                        })
+                        console.log(Clinics)
+                    }
+                }.bind(this)
+            ).catch(error => {
+                console.log(error)
+            });
 
     }
 
@@ -56,8 +93,8 @@ class NurseRegistration extends Component {
         this.setState({errorConfirmPassword: false})
     }
     register=()=>{
-        let {firstName, lastName, accessId, email, password,confirmPassword} = this.state;
-        if(!firstName || !lastName || !accessId  || !email || !password || !confirmPassword ||  confirmPassword !== password){
+        let {firstName, lastName, accessId, email, password,confirmPassword, clinic_id} = this.state;
+        if(!firstName || !lastName || !accessId  || !email || !password || !confirmPassword ||  confirmPassword !== password || !clinic_id){
             if(!firstName){
                 this.setState({errorFirstName: true})
             }
@@ -80,6 +117,9 @@ class NurseRegistration extends Component {
                 this.setState({errorPassword: true})
                 this.setState({errorConfirmPassword: true})
             }
+            if(!clinic_id){
+                this.setState({errorClinicID: true})
+            }
         }else{
             this.setState({loading:true})
             let data={
@@ -88,6 +128,7 @@ class NurseRegistration extends Component {
                 password:password,
                 last_name: lastName,
                 first_name: firstName,
+                clinic_id: clinic_id
             }
 
             axios.post('http://127.0.0.1:5000/api/Nurse',data).then(
@@ -102,6 +143,10 @@ class NurseRegistration extends Component {
                 });
 
         }
+    }
+
+    changeClinic=(e, {value})=>{
+        this.setState({clinic_id: value})
     }
 
     render() {
@@ -167,6 +212,14 @@ class NurseRegistration extends Component {
                     error={this.state.errorConfirmPassword}
                     onChange={this.changeConfirmPassword}
                 />
+                <Form.Select
+                            label='Select Clinic'
+                            placeholder='Please Select A Option'
+                            options={Clinics}
+                            error={this.state.errorClinicID}
+                            value={this.state.clinic_id}
+                            onChange={this.changeClinic}
+                        />
                 <Button className='david'  fluid size='large' style={{marginTop: '5%'}} onClick={this.register}>
                     Submit
                 </Button>

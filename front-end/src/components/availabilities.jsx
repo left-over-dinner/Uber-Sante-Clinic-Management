@@ -59,9 +59,15 @@ class Appointments extends Component {
                     if (response.data) {
                         console.log(response.data.data)
                         response.data.data.map(clinicData=>{
-                            console.log(clinicData)
-                            let arr= {key: clinicData.clinic_id, value: clinicData.clinic_id, text: clinicData.name}
-                            Clinics.push(arr);
+                            if(clinicData.no_doctors === 7) {
+                                console.log(clinicData)
+                                let arr = {
+                                    key: clinicData.clinic_id,
+                                    value: clinicData.clinic_id,
+                                    text: clinicData.name
+                                }
+                                Clinics.push(arr);
+                            }
                         })
                         console.log(Clinics)
                          var this1 = this;

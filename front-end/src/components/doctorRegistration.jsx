@@ -4,6 +4,8 @@ import {withRouter} from 'react-router-dom'
 import {Button, Form, Header} from 'semantic-ui-react'
 import axios from "axios";
 
+var Clinics=[];
+var Doctors=[];
 class DoctorRegistration extends Component {
     constructor(props) {
         super(props);
@@ -26,11 +28,46 @@ class DoctorRegistration extends Component {
             errorPassword:false,
             errorConfirmPassword: false,
             errorType: false,
+            errorClinicID:false,
             loading:false,
+            clinic_id: '',
+
         }
     }
 
     componentDidMount() {
+        Doctors=[];
+            axios.get('http://127.0.0.1:5000/api/Doctor').then(
+                function (response, err) {
+                    console.log(response)
+                    if (response.data) {
+                        console.log(response.data.data)
+                        response.data.data.map(doctorData=>{
+                            Doctors.push(doctorData);
+                        })
+                    }
+                }.bind(this)
+            ).catch(error => {
+                console.log(error)
+            });
+
+        Clinics=[];
+            axios.get('http://127.0.0.1:5000/api/Clinics').then(
+                function (response, err) {
+                    console.log(response)
+                    if (response.data) {
+                        console.log(response.data.data)
+                        response.data.data.map(clinicData=>{
+                            console.log(clinicData)
+                            let arr= {key: clinicData.clinic_id, value: clinicData.clinic_id, text: clinicData.name}
+                            Clinics.push(arr);
+                        })
+                        console.log(Clinics)
+                    }
+                }.bind(this)
+            ).catch(error => {
+                console.log(error)
+            });
 
     }
 
@@ -68,8 +105,8 @@ class DoctorRegistration extends Component {
         this.setState({errorConfirmPassword: false})
     }
     register=()=>{
-        let {firstName, lastName, permitNumber,location,specialty, email, password,confirmPassword} = this.state;
-        if(!firstName || !lastName || !permitNumber || !location || !specialty || !email || !password || !confirmPassword ||  confirmPassword !== password){
+        let {firstName, lastName, permitNumber,location,specialty, email, password,confirmPassword,clinic_id} = this.state;
+        if(!firstName || !lastName || !permitNumber || !location || !specialty || !email || !password || !confirmPassword ||  confirmPassword !== password || !clinic_id){
             if(!firstName){
                 this.setState({errorFirstName: true})
             }
@@ -98,32 +135,48 @@ class DoctorRegistration extends Component {
                 this.setState({errorPassword: true})
                 this.setState({errorConfirmPassword: true})
             }
-        }else{
-            this.setState({loading:true})
-            let data={
-                permit_number:permitNumber,
-                location:location,
-                specialty:specialty,
-                email:email,
-                password:password,
-                last_name: lastName,
-                first_name: firstName,
+            if(!clinic_id){
+                this.setState({errorClinicID: true})
             }
-            console.log(data)
+        }else{
+            var i=0;
+            Doctors.map(doctorData=>{
+                if(doctorData.clinic_id === clinic_id){
+                    i=i+1;
+                }
+            })
+            if(i<7) {
+                this.setState({loading: true})
+                let data = {
+                    permit_number: permitNumber,
+                    location: location,
+                    specialty: specialty,
+                    email: email,
+                    password: password,
+                    last_name: lastName,
+                    first_name: firstName,
+                    clinic_id: clinic_id
+                }
+                console.log(data)
 
-            axios.post('http://127.0.0.1:5000/api/Doctor',data).then(
-                function (response, err) {
-                    console.log(response)
-                    if(response.data){
-                        console.log(response.data)
-                        this.setState({loading:false})
-                    }
-                }.bind(this)
-            ).catch(error=>{
-                                  console.log(error)
+                axios.post('http://127.0.0.1:5000/api/Doctor', data).then(
+                    function (response, err) {
+                        console.log(response)
+                        if (response.data) {
+                            console.log(response.data)
+                            this.setState({loading: false})
+                        }
+                    }.bind(this)
+                ).catch(error => {
+                    console.log(error)
                 });
+            }
 
         }
+    }
+
+    changeClinic=(e, {value})=>{
+        this.setState({clinic_id: value})
     }
 
     render() {
@@ -209,6 +262,14 @@ class DoctorRegistration extends Component {
                     error={this.state.errorConfirmPassword}
                     onChange={this.changeConfirmPassword}
                 />
+                <Form.Select
+                            label='Select Clinic'
+                            placeholder='Please Select A Option'
+                            options={Clinics}
+                            error={this.state.errorClinicID}
+                            value={this.state.clinic_id}
+                            onChange={this.changeClinic}
+                        />
                 <Button className='david'  fluid size='large' style={{marginTop: '5%'}} onClick={this.register}>
                     Submit
                 </Button>
