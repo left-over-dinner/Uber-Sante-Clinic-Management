@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import { Menu} from 'semantic-ui-react'
+import {Icon, Menu} from 'semantic-ui-react'
 
 class Navbar extends Component {
     constructor(props) {
@@ -28,6 +28,8 @@ class Navbar extends Component {
 
         }else if(path[path.length-1] === ''){
             props.dispatch({type: 'activeMenuItem', data: 'Home'});
+        }else if(path[path.length-1] === 'cart'){
+            props.dispatch({type: 'activeMenuItem', data: 'Cart'});
         }
          }, 1);
 
@@ -44,6 +46,7 @@ class Navbar extends Component {
     }
     appointments=()=>{this.props.history.push(`/appointments`)}
     availabilities=()=>{this.props.history.push(`/availabilities`)}
+    cart=()=>{this.props.history.push(`/cart`)}
 
     render() {
         const { activeMenuItem } = this.props;
@@ -77,6 +80,15 @@ class Navbar extends Component {
                         >
                             Availabilities
                         </Menu.Item>
+                        {this.props.userProfile.type === "Patient"?
+                        <Menu.Item
+                            name='Cart'
+                            active={activeMenuItem === 'Cart'}
+                            fitted='Cart'
+                            onClick={(e,{name})=>{this.handleItemClick(e,{name});this.cart();}}
+                        >
+
+                        </Menu.Item>: null}
 
                         <Menu.Item
                             name='Logout'
@@ -86,6 +98,8 @@ class Navbar extends Component {
                         >
                             Logout
                         </Menu.Item>
+
+
                     </Menu></div>)
 
         }else{
