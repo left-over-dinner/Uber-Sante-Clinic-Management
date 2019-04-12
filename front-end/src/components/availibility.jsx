@@ -253,7 +253,9 @@ class Availability extends Component {
                 date: this.state.date,
                 slots: array,
                 appointment_type: this.state.appointmentType,
-                availability_id:  this.state.availability.availability_id
+                availability_id:  this.state.availability.availability_id,
+                doctorSpeciality: this.state.availability.doctorSpecialty,
+                clinicName: this.state.availability.clinicName
             }
             if(this.props.userProfile.type === 'Patient'){
                 data.patient_card_number = this.props.userProfile.card_number;

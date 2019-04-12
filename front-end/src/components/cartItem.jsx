@@ -69,6 +69,8 @@ class Availability extends Component {
                                     return(<div>{slotData}</div>);
                                 })} </span>
                             </div>
+                            <span className="cal-title-time"> Clinic : {this.props.appointments.clinicName} <br/> </span>
+                            <span className="cal-title-time"> Doctor Speciality : {this.props.appointments.doctorSpeciality} <br/></span>
                         </div>
                         <div className="PMC-Delete-Edit-buttons">
                             <div className="note-author" onClick={(e)=>this.removeCart(e,this.props.appointments.id)}>
