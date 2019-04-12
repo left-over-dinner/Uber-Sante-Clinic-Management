@@ -420,11 +420,18 @@ class Appointment extends Component {
                                     return(<div>{slotData}</div>);
                                 })}</span>
                             </div>
+                             {this.props.userProfile.type === "Patient"?
+                            <span className="cal-title-time"> Clinic : {this.props.appointments.clinicName} <br/> </span>: null}
                             {this.props.userProfile.type === "Patient"? null :
-                            <span className="cal-title-time"> Patient Card Number : {this.props.appointments.patient_card_number} </span>}
-                            <br/>
+                            <span className="cal-title-time"> Patient : {this.props.appointments.patientFirstName} {this.props.appointments.patientLastName} <br/> </span>}
+                            {this.props.userProfile.type === "Patient"? null :
+                            <span className="cal-title-time"> Patient Card Number : {this.props.appointments.patient_card_number} <br/></span>}
                             {this.props.userProfile.type === "Nurse"?
-                            <span className="cal-title-time"> Doctor Permit Number : {this.props.appointments.doctor_permit_number} </span> : null}
+                            <span className="cal-title-time"> Doctor : {this.props.appointments.doctorFirstName} {this.props.appointments.doctorLastName}  <br/></span> : null}
+                            {this.props.userProfile.type === "Doctor"? null :
+                            <span className="cal-title-time"> Doctor Speciality : {this.props.appointments.doctorSpeciality} <br/></span>}
+                            {this.props.userProfile.type === "Nurse"?
+                            <span className="cal-title-time"> Doctor Permit Number : {this.props.appointments.doctor_permit_number} <br/></span> : null}
                         </div>
                         <div className="PMC-Delete-Edit-buttons">
                             {this.props.userProfile.type !== "Doctor"?

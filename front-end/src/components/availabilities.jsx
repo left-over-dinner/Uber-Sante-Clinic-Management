@@ -10,8 +10,12 @@ import {availableFrom,availableTo} from "./options";
 import moment from 'moment'
 import {Redirect} from "react-router";
 import DoctorRegistration from "./registrationForm";
+import DataIterator from "./iterator";
+
 
 let Doctors=[];
+let Clinics=[];
+let DoctorsArray=[]
 class Appointments extends Component {
     constructor(props) {
         super(props);
@@ -31,16 +35,40 @@ class Appointments extends Component {
             this.getAvailabilitiesDoctor();
         }else{
             this.setState({loading: true})
+            Doctors=[];
             axios.get('http://127.0.0.1:5000/api/Doctor').then(
                 function (response, err) {
                     console.log(response)
                     if (response.data) {
                         console.log(response.data.data)
                         response.data.data.map(doctorData=>{
-                            let arr= {key: doctorData.permit_number, value: doctorData.permit_number, text: doctorData.first_name+' '+doctorData.last_name}
-                            Doctors.push(arr);
+                            Doctors.push(doctorData);
                         })
+                        console.log(Doctors)
                         var this1 = this;
+                        setTimeout(function(){  this1.setState({loading: false}) }, 1000);
+                    }
+                }.bind(this)
+            ).catch(error => {
+                console.log(error)
+            });
+            Clinics=[];
+            axios.get('http://127.0.0.1:5000/api/Clinics').then(
+                function (response, err) {
+                    console.log(response)
+                    if (response.data) {
+                        console.log(response.data.data)
+                        response.data.data.map(clinicData=>{
+                            console.log(clinicData)
+                            let arr= {key: clinicData.clinic_id, value: clinicData.clinic_id, text: clinicData.name}
+                            Clinics.push(arr);
+                        })
+                        console.log(Clinics)
+                         var this1 = this;
+                        if(this1.props.userProfile.type !== 'Patient'){
+                            this1.setState({clinic_id: this1.props.userProfile.clinic_id})
+                            this1.filterDoctors(this1.props.userProfile.clinic_id)
+                        }
                         setTimeout(function(){  this1.setState({loading: false}) }, 1000);
                     }
                 }.bind(this)
@@ -205,9 +233,33 @@ class Appointments extends Component {
         this.setState({availableTo: value})
     }
 
+    filterDoctors=(clinicID)=>{
+        DoctorsArray=[];
+        let Iterator =  new DataIterator(Doctors);
+        while(Iterator.hasNext()){
+            let doctor = Iterator.next()
+            if(doctor.clinic_id===clinicID){
+                console.log(doctor)
+                let arr= {key: doctor.permit_number, value: doctor.permit_number, text: doctor.specialty}
+                DoctorsArray.push(arr)
+            }
+
+        }
+
+
+    }
+
+    changeClinic=(e, {value})=>{
+        console.log(value)
+        this.setState({clinic_id: value})
+        this.filterDoctors(value);
+    }
+
     changeDoctor=(e, {value})=>{
         this.setState({doctorPermit: value})
-        this.getAvailabilitiesforDoctor(value);
+        if(value){
+            this.getAvailabilitiesforDoctor(value);
+        }
     }
 
 
@@ -226,43 +278,58 @@ class Appointments extends Component {
                 <div className="registrationForm-Container-upper-container">
                     <div className="registrationForm-Container-upper-container-text">
                         <div className="registrationForm-Container-upper-container-first-text">
-                            Selecting Doctor
+                            Selecting Clinic and Speciality
                         </div>
                         <div className="registrationForm-Container-upper-container-second-text">
-                       Please choose Doctor to see their availabilities
+                       Please first choose the clinic and then the Speciality to see availabilities
 
                         </div>
                     </div>
                 </div>
                     <Form size='large' loading={this.state.loading} className='formContainer-modal'>
                         <Header as='h2' style={{marginTop: '3%', fontFamily: 'Fahkwang'}} textAlign='center'>
-                            Choose Doctor
+                            Choose Clinic & Speciality
                         </Header>
                         <Form.Select
                             fluid
                             placeholder='Please Select A Option'
-                            options={Doctors}
+                            options={Clinics}
+                            value={this.state.clinic_id}
+                            disabled={this.props.userProfile.type !== 'Patient'}
+                            onChange={this.changeClinic}
+                        />
+                        <Form.Select
+                            fluid
+                            placeholder='Please Select A Option'
+                            options={DoctorsArray}
+                            disabled={!this.state.clinic_id}
                             value={this.state.doctorPermit}
                             onChange={this.changeDoctor}
                         />
                     </Form>
             </div>)
         }else {
-            var today = "Availabilities" + " (" + this.state.availabilities.length + ")";
-            var nextweek = "Next Week" + " (" + 2 + ")";
-            var thismonth = "This Month" + " (" + 3 + ")";
-            var nextmonths = "Next Months" + " (" + 4 + ")";
-            var pastevents = "Past Events" + " (" + 5 + ")";
             return (<div className='registrationForm-Container'>
                 {this.props.userProfile.type === "Doctor"?
                 <Button size='small' onClick={this.addAvailability}>
                         Add Availability
-                    </Button>: <Form.Select
+                    </Button>:
+                    <div className='dropdown-flex'>
+                    <Form.Select
+                            fluid
                             placeholder='Please Select A Option'
-                            options={Doctors}
+                            options={Clinics}
+                            value={this.state.clinic_id}
+                            disabled={this.props.userProfile.type !== 'Patient'}
+                            onChange={this.changeClinic}
+                        />
+                    <Form.Select
+                            style={{marginLeft:'5%'}}
+                            placeholder='Please Select A Option'
+                            options={DoctorsArray}
                             value={this.state.doctorPermit}
                             onChange={this.changeDoctor}
-                        />}
+                        /></div>}
                 <Modal
                   title="Add Availability"
                   visible={this.state.visible}
@@ -303,7 +370,7 @@ class Appointments extends Component {
                 <Tab className='appointment-tab' menu={{secondary: true, pointing: true}} panes={
                     [
                         {
-                            menuItem: today,
+                            menuItem: "Availabilities" + " (" + this.state.availabilities.length + ")",
                             render: () =>
                                 <Tab.Pane attached={false}>
                                     {this.state.availabilities.map(availabilityData => {

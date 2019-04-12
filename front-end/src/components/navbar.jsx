@@ -80,18 +80,15 @@ class Navbar extends Component {
                         >
                             Availabilities
                         </Menu.Item>
-
+                        {this.props.userProfile.type === "Patient"?
                         <Menu.Item
                             name='Cart'
                             active={activeMenuItem === 'Cart'}
                             fitted='Cart'
                             onClick={(e,{name})=>{this.handleItemClick(e,{name});this.cart();}}
                         >
-                             <div className='topbar-cart-container'>
-                                 Cart <Icon name='shopping cart'/>
-                             </div>
 
-                        </Menu.Item>
+                        </Menu.Item>: null}
 
                         <Menu.Item
                             name='Logout'
