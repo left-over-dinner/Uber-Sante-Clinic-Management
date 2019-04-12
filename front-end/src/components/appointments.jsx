@@ -46,7 +46,12 @@ class Appointments extends Component {
                         });
                         this.setState({appointments: array})
                         }else{
-                        this.setState({appointments: response.data.data})
+                            response.data.data.map(data=>{
+                            if(data.clinic_id ===  this.props.userProfile.clinic_id){
+                                array.push(data);
+                            }
+                        });
+                        this.setState({appointments: array})
                         }
                         console.log(array)
                         var this1 = this;
@@ -85,16 +90,11 @@ class Appointments extends Component {
                     </div>
                 </div>)
         }else {
-             var today = "Appointments" + " (" + this.state.appointments.length + ")";
-             var nextweek = "Next Week" + " (" + 2 + ")";
-             var thismonth = "This Month" + " (" + 3 + ")";
-             var nextmonths = "Next Months" + " (" + 4 + ")";
-             var pastevents = "Past Events" + " (" + 5 + ")";
              return (<div className='registrationForm-Container'>
                  <Tab className='appointment-tab' menu={{secondary: true, pointing: true}} panes={
                      [
                          {
-                             menuItem: today,
+                             menuItem: "Appointments" + " (" + this.state.appointments.length + ")",
                              render: () =>
                                  <Tab.Pane attached={false}>
                                      {this.state.appointments.map(appointmentData => {
@@ -102,34 +102,7 @@ class Appointments extends Component {
                                      })}
                                  </Tab.Pane>
                          },
-                         /*{
-                             menuItem: nextweek,
-                             render: () =>
-                                 <Tab.Pane attached={false}>
-                                     <Appointment/>
-                                 </Tab.Pane>
-                         },
-                         {
-                             menuItem: thismonth,
-                             render: () =>
-                                 <Tab.Pane attached={false}>
-                                     <Appointment/>
-                                 </Tab.Pane>
-                         },
-                         {
-                             menuItem: nextmonths,
-                             render: () =>
-                                 <Tab.Pane attached={false}>
-                                     <Appointment/>
-                                 </Tab.Pane>
-                         },
-                         {
-                             menuItem: pastevents,
-                             render: () =>
-                                 <Tab.Pane attached={false}>
-                                     <Appointment/>
-                                 </Tab.Pane>
-                         },*/
+
 
                      ]
                  }/>

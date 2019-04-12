@@ -13,6 +13,8 @@ import Topbar from './components/topbar.jsx'
 import Login from './components/login'
 import Appointments from './components/appointments'
 import Availabilities from './components/availabilities'
+import Cart from './components/cart'
+import NotFound from './components/404Page'
 
 
 class App extends Component {
@@ -32,6 +34,9 @@ class App extends Component {
         <Route exact path="/login" component={Login} />
         <Route exact path="/appointments" component={Appointments} />
         <Route exact path="/availabilities" component={Availabilities} />
+        {this.props.userProfile.type === 'Patient' ?
+        <Route exact path="/Cart" component={Cart} /> : null }
+        <Route exact path="/404" component={NotFound} />
         <Redirect from="*" to="/404" />
         </Switch>
         </div>

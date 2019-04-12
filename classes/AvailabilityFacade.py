@@ -35,7 +35,7 @@ class AvailabilityFacade():
         return AvailabilityFacade.instance
 
     def getAll(self):
-        result = db.engine.execute("SELECT availability.availability_id, availability.date, availability.doctor_permit_number, availability.slots,doctor.first_name doctorFirstName,doctor.last_name doctorLastName,doctor.email doctorEmail,doctor.location doctorLocation,doctor.specialty doctorSpecialty,doctor.clinic_id FROM availability INNER JOIN doctor on availability.doctor_permit_number = doctor.permit_number")
+        result = db.engine.execute("SELECT availability.availability_id, availability.date, availability.doctor_permit_number, availability.slots,doctor.first_name doctorFirstName,doctor.last_name doctorLastName,doctor.email doctorEmail,doctor.location doctorLocation,doctor.specialty doctorSpecialty,doctor.clinic_id, clinics.name clinicName  FROM availability INNER JOIN doctor on availability.doctor_permit_number = doctor.permit_number INNER JOIN clinics  ON clinics.clinic_id = doctor.clinic_id" )
         result = ProxyObjectAdapter.toArray(result, [customDateFormat, customSlotsFormat])
         return result
 

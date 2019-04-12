@@ -241,6 +241,43 @@ class Availability extends Component {
                 console.log(error)
             });
     }
+
+    handleOkAdd2=()=>{
+        let props = this.props;
+        let array = this.state.slots
+        let this1 = this;
+        array = array.sort(function(a, b){return a-b});
+        let data ={
+                patient_card_number: this.state.cardNumber,
+                doctor_permit_number: this.state.availability.doctor_permit_number,
+                date: this.state.date,
+                slots: array,
+                appointment_type: this.state.appointmentType,
+                availability_id:  this.state.availability.availability_id,
+                doctorSpeciality: this.state.availability.doctorSpecialty,
+                clinicName: this.state.availability.clinicName
+            }
+            if(this.props.userProfile.type === 'Patient'){
+                data.patient_card_number = this.props.userProfile.card_number;
+            }
+        if(!localStorage.getItem('cartAppointments')) {
+        var cartAppointments = []
+        cartAppointments.push(data)
+        localStorage.setItem('cartAppointments', JSON.stringify(cartAppointments))
+        }
+        else{
+            var currentCart = JSON.parse(localStorage.getItem('cartAppointments'));
+            console.log(currentCart)
+            currentCart.push(data)
+            localStorage.setItem('cartAppointments', JSON.stringify(currentCart))
+        }
+        this.setState({visible: false})
+        this.setState({date: ''});
+        this.setState({availability: ''})
+        this.setState({slots: []});
+        this.setState({type: ''});
+        this.setState({appointmentType:''})
+    }
     changeDate=(e)=>{
         this.setState({date:e.target.value});
     }
@@ -302,7 +339,7 @@ class Availability extends Component {
                 <Modal
                   title={this.state.type === 'add' ? "Add Appointment" : "Edit Availability" }
                   visible={this.state.visible}
-                  onOk={this.state.type === 'add' ? this.handleOkAdd : this.handleOkEdit}
+                  onOk={this.state.type === 'add' ? (this.props.userProfile.type ==='Patient' ? this.handleOkAdd2 :this.handleOkAdd) : this.handleOkEdit}
                   onCancel={this.handleCancel}
                   okButtonProps={{ disabled: this.state.slots.length > 0 && this.state.date ? (this.state.type === 'add' && this.props.userProfile.type === 'Nurse' && !this.state.cardNumber ? true :
                       this.props.userProfile.type !== 'Doctor' && this.state.type === 'add' && this.state.submit) : true }}

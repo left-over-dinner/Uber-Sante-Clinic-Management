@@ -210,10 +210,11 @@ class Clinics(db.Model):
     no_rooms = db.Column(db.INT(), nullable=False)
     schedule = db.Column(db.String(250), nullable=False)
 
-    def __init__(self, name, no_doctors, no_nurses, no_rooms, schedule):
+    def __init__(self, clinic_id,name, no_doctors, no_nurses, no_rooms, schedule):
         # this column is set to auto-increment by the database
         # it must not be supplied in the constructor
         #self.clinic_id = clinic_id
+        self.clinic_id=clinic_id
         self.name = name
         self.no_doctors = no_doctors
         self.no_nurses = no_nurses
@@ -222,6 +223,7 @@ class Clinics(db.Model):
 
 
 class ClinicsSchema(ma.Schema):
+    clinic_id = fields.Int()
     name = fields.String()
     no_doctors = fields.Int()
     no_nurses = fields.Int()
